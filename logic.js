@@ -22,8 +22,6 @@ async function LoadFloorPrices() {
     })
         
     .then(function(data) {
-        
-        
         QuerySaver(data, "NormalAxiePrice");
     });
 
