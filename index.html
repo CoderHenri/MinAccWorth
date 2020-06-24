@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="Style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="logic.js"></script> 
+    <title>Acc Worth Calc</title>
+</head>
+
+<body id="webpage" onload="ReadTextFile()">
+    <div id="FixedBoxFixer">
+        <div id="Entwickler">Made by Henri</div>
+        <div id="Donation">Donate to: 0xBCd8Fbb84Efc6bF1B7dFfD43E404A54B9AED1cdb</div>
+    </div>
+    <div id="Ueberschrift">
+        <h1 id="Headline">Minimum Account Worth</h1>
+            <p id="Underline">A tool to calculate the minimum Worth of your Account by floor prices</p>
+    </div>
+
+    <!--<button onclick="ReadTextFile()"> Testrun Start </button>-->
+
+    <!-- <div id="lds-hourglass"></div> -->
+
+    <div id="SimpleFeature">    
+        <div class="Buttoncontainer">
+            <button class="Button" id="SelectETHAddy" onclick="SelectAddress()"> Select ETH Address </button>
+                <div calss="ETHDisplay" id="ETHAddress"> 0x... </div>
+    </div>
+        <div id="DatacontainerAxies">
+            <div class="GridHeader"> Axie Categories </div>
+
+            <div class="CategoryAxie" id="NormalAxie"> Normal Axie </div>
+            <div class="CategoryAxie" id="OriginAxie"> Origin Axie </div>
+            <div class="CategoryAxie" id="MEOAxie"> MEO (I & II) Axie </div>
+            <div class="CategoryAxie" id="Mystic1Axie"> 1 Mystic Axie </div>
+            <div class="CategoryAxie" id="Mystic2Axie"> 2 Mystic Axie </div>
+            <div class="CategoryAxie" id="Mystic3Axie"> 3 Mystic Axie </div>
+            <div class="CategoryAxie" id="Mystic4Axie"> 4 Mystic Axie </div>
+
+            <div class="GridHeader"> Axie Market Floor Prices </div>
+
+            <div class="CategoryFloorPriceAxie" id="NormalAxiePrice"> N A Price ETH </div>
+            <div class="CategoryFloorPriceAxie" id="OriginAxiePrice"> O A Price ETH </div>
+            <div class="CategoryFloorPriceAxie" id="MEOAxiePrice"> MEO Price ETH </div>
+            <div class="CategoryFloorPriceAxie" id="Mystic1AxiePrice"> 1 M A Price ETH </div>
+            <div class="CategoryFloorPriceAxie" id="Mystic2AxiePrice"> 2 M A Price ETH </div>
+            <div class="CategoryFloorPriceAxie" id="Mystic3AxiePrice"> 3 M A Price ETH </div>
+            <div class="CategoryFloorPriceAxie" id="Mystic4AxiePrice"> 4 M A Price ETH </div>
+
+            <div class="GridHeader"> Amount of Axies owned by the Account </div>
+
+            <div class="CategoryOwnedAxies" id="NormalAxieAmount"> --- Axies </div>
+            <div class="CategoryOwnedAxies" id="OriginAxieAmount"> --- Axies </div>
+            <div class="CategoryOwnedAxies" id="MEOAxieAmount"> --- Axies </div>
+            <div class="CategoryOwnedAxies" id="Mystic1AxieAmount"> --- Axies </div>
+            <div class="CategoryOwnedAxies" id="Mystic2AxieAmount"> --- Axies </div>
+            <div class="CategoryOwnedAxies" id="Mystic3AxieAmount"> --- Axies </div>
+            <div class="CategoryOwnedAxies" id="Mystic4AxieAmount"> --- Axies </div>
+
+            <div class="GridHeader"> Calculated Worth of the Axies </div>
+
+            <div class="CategoryOwnedAxies" id="NormalAxieWorth"> --- ETH </div>
+            <div class="CategoryOwnedAxies" id="OriginAxieWorth"> --- ETH </div>
+            <div class="CategoryOwnedAxies" id="MEOAxieWorth"> --- ETH </div>
+            <div class="CategoryOwnedAxies" id="Mystic1AxieWorth"> --- ETH </div>
+            <div class="CategoryOwnedAxies" id="Mystic2AxieWorth"> --- ETH </div>
+            <div class="CategoryOwnedAxies" id="Mystic3AxieWorth"> --- ETH </div>
+            <div class="CategoryOwnedAxies" id="Mystic4AxieWorth"> --- ETH </div>
+        </div>
+        
+    </div> 
+
+    <div id="DatacontainerLand">
+        <div class="GridHeaderLand"> Land Categories </div>
+
+        <div class="CategoryAxie" id="LandGenesis"> Normal Axie </div>
+        <div class="CategoryAxie" id="LandMystic"> Origin Axie </div>
+        <div class="CategoryAxie" id="LandArctic"> MEO (I & II) Axie </div>
+        <div class="CategoryAxie" id="LandForest"> 1 Mystic Axie </div>
+        <div class="CategoryAxie" id="LandSavannah"> 2 Mystic Axie </div>
+
+        <div class="GridHeaderLand"> Land Market Floor Prices </div>
+
+        <div class="CategoryFloorPriceAxie" id="NormalAxiePrice"> N A Price ETH </div>
+        <div class="CategoryFloorPriceAxie" id="OriginAxiePrice"> O A Price ETH </div>
+        <div class="CategoryFloorPriceAxie" id="MEOAxiePrice"> MEO Price ETH </div>
+        <div class="CategoryFloorPriceAxie" id="Mystic1AxiePrice"> 1 M A Price ETH </div>
+        <div class="CategoryFloorPriceAxie" id="Mystic2AxiePrice"> 2 M A Price ETH </div>
+
+        <div class="GridHeaderLand"> Amount of Land Plots owned by the Account </div>
+
+        <div class="CategoryOwnedAxies" id="NormalAxieAmount"> --- Axies </div>
+        <div class="CategoryOwnedAxies" id="OriginAxieAmount"> --- Axies </div>
+        <div class="CategoryOwnedAxies" id="MEOAxieAmount"> --- Axies </div>
+        <div class="CategoryOwnedAxies" id="Mystic1AxieAmount"> --- Axies </div>
+        <div class="CategoryOwnedAxies" id="Mystic2AxieAmount"> --- Axies </div>
+
+        <div class="GridHeaderLand"> Calculated Worth of the Land </div>
+
+        <div class="CategoryOwnedAxies" id="NormalAxieWorth"> --- ETH </div>
+        <div class="CategoryOwnedAxies" id="OriginAxieWorth"> --- ETH </div>
+        <div class="CategoryOwnedAxies" id="MEOAxieWorth"> --- ETH </div>
+        <div class="CategoryOwnedAxies" id="Mystic1AxieWorth"> --- ETH </div>
+        <div class="CategoryOwnedAxies" id="Mystic2AxieWorth"> --- ETH </div>
+    </div>
+    
+</div> 
+
+</body>
+</html>
