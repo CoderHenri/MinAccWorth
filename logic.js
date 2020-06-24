@@ -310,7 +310,7 @@ function SelectAddress() {
     FirstOnclickCheck = 0; 
   
     var txt;
-    var PopUp = prompt("Please enter your ETH Address with your Axies:", "0x1E3934EA7E416F4E2BC5F7d55aE9783da0061475");
+    var PopUp = prompt("Please enter your ETH Address with your Axies:", "0x...");
     if (PopUp == null || PopUp == "") {
         txt = "User cancelled the prompt!";
     } else if (PopUp.startsWith("0x") && PopUp.length == 42) {
