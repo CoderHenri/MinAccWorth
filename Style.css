@@ -49,22 +49,22 @@
 }
 
 #DatacontainerAxies {
-    border: 1px solid rgba(125, 125, 125, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.8);
     margin-left: auto;
     margin-right: auto;
     margin-top: 5px;
-    width: 1400px;
+    width: 1600px;
     height: auto;
     position: relative;
     display: grid;
-    grid-template-columns: 200px 200px 200px 200px 200px 200px 200px;
+    grid-template-columns: 200px 200px 200px 200px 200px 200px 200px 200px;
     grid-template-rows: auto;
     row-gap: 10px;
 }
 
 .GridHeader {
-    grid-column: 1/8;
-    font-size: 30px;
+    grid-column: 1/9;
+    font-size: 27px;
     font-family: Arial, Helvetica, sans-serif;
     color: rgb(255, 255, 255);
     text-align: center;
@@ -97,28 +97,66 @@
     margin-top: 0px;
 }
 
-#DatacontainerLand {
+#EntireAccountWorth {
     border: 1px solid rgba(125, 125, 125, 0.8);
+    display: none;
+}
+
+#DatacontainerLand {
+    border: 1px solid rgba(255, 255, 255, 0.8);
     margin-left: auto;
     margin-right: auto;
     margin-top: 5px;
-    width: 1400px;
+    width: 1600px;
     height: auto;
     position: relative;
     display: grid;
-    grid-template-columns: 280px 280px 280px 280px 280px;
+    grid-template-columns: 320px 320px 320px 320px 320px;
     grid-template-rows: auto;
     row-gap: 10px;
 }
 
 .GridHeaderLand {
     grid-column: 1/6;
-    font-size: 30px;
+    font-size: 27px;
     font-family: Arial, Helvetica, sans-serif;
     color: rgb(255, 255, 255);
     text-align: center;
 }
 
+.Buttoncontainer {
+    border: 1px solid rgba(125, 125, 125, 0.8);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    width: 800px;
+    height: auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: 250px 550px;
+}
+
+#SelectETHAddy {
+    width: 250px;
+    height: 30px;
+    background-color: #ffffff; /* Green */
+    border: none;
+    color: #252835;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    display: inline-block;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#ETHAddress {
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    display: inline-block;
+    font-size: 20px;
+    line-height: 30px;
+}
 
 
 /*Loader*/
