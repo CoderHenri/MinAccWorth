@@ -22,7 +22,7 @@ async function LoadFloorPrices() {
     })
         
     .then(function(data) {
-        QuerySaver(data, "NormalAxiePrice");
+        QuerySaver(data, "NormalAxiePrice", "Axie");
     });
 
     //OriginAxiePrice
@@ -44,7 +44,7 @@ async function LoadFloorPrices() {
     .then(function(data) {
         
         
-        QuerySaver(data, "OriginAxiePrice");
+        QuerySaver(data, "OriginAxiePrice", "Axie");
     });
 
     //MEO1AxiePrice
@@ -66,7 +66,7 @@ async function LoadFloorPrices() {
     .then(function(data) {
         
         
-        QuerySaver(data, "MEO1AxiePrice");
+        QuerySaver(data, "MEO1AxiePrice", "Axie");
     });
 
     //MEO2AxiePrice
@@ -88,7 +88,7 @@ async function LoadFloorPrices() {
     .then(function(data) {
         
         
-        QuerySaver(data, "MEO2AxiePrice");
+        QuerySaver(data, "MEO2AxiePrice", "Axie");
     });
 
     //Mystic1AxiePrice
@@ -110,7 +110,7 @@ async function LoadFloorPrices() {
     .then(function(data) {
         
         
-        QuerySaver(data, "Mystic1AxiePrice");
+        QuerySaver(data, "Mystic1AxiePrice", "Axie");
     });
 
     //Mystic2AxiePrice
@@ -132,7 +132,7 @@ async function LoadFloorPrices() {
     .then(function(data) {
         
         
-        QuerySaver(data, "Mystic2AxiePrice");
+        QuerySaver(data, "Mystic2AxiePrice", "Axie");
     });
 
     //Mystic3AxiePrice
@@ -154,7 +154,7 @@ async function LoadFloorPrices() {
     .then(function(data) {
         
         
-        QuerySaver(data, "Mystic3AxiePrice");
+        QuerySaver(data, "Mystic3AxiePrice", "Axie");
     });
 
     //Mystic4AxiePrice
@@ -176,7 +176,7 @@ async function LoadFloorPrices() {
     .then(function(data) {
         
         
-        QuerySaver(data, "Mystic4AxiePrice");
+        QuerySaver(data, "Mystic4AxiePrice", "Axie");
     });
 
     //Query Land Floor Data
@@ -197,7 +197,7 @@ async function LoadFloorPrices() {
     })
         
     .then(function(data) {
-        QuerySaver(data, "LandGenesisPrice");
+        QuerySaver(data, "LandGenesisPrice", "Land");
     });
 
     //LandMysticPrice
@@ -219,7 +219,7 @@ async function LoadFloorPrices() {
     .then(function(data) {
         
         
-        QuerySaver(data, "LandMysticPrice");
+        QuerySaver(data, "LandMysticPrice", "Land");
     });
 
     //LandArcticPrice
@@ -241,7 +241,7 @@ async function LoadFloorPrices() {
     .then(function(data) {
         
         
-        QuerySaver(data, "LandArcticPrice");
+        QuerySaver(data, "LandArcticPrice", "Land");
     });
 
     //LandForestPrice
@@ -263,7 +263,7 @@ async function LoadFloorPrices() {
     .then(function(data) {
         
         
-        QuerySaver(data, "LandForestPrice");
+        QuerySaver(data, "LandForestPrice", "Land");
     });
 
     //LandSavannahPrice
@@ -283,20 +283,103 @@ async function LoadFloorPrices() {
     })
         
     .then(function(data) {
+        QuerySaver(data, "LandSavannahPrice", "Land");
+    });
+
+    //Query Item Floors
+    //ItemMysticPrice
+    await  fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+            
+        body: JSON.stringify({
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","owner":null,"criteria":{"onSale":true,"type":[],"rarity":["Mystic"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  currentPrice\n  __typename\n}\n"})
+    })
+    .then(function(response) { 
+        return response.json(); 
+    })
         
+    .then(function(data) {
+        QuerySaver(data, "ItemMysticPrice", "Item");
+    });
+
+    //ItemEpicPrice
+    await  fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+            
+        body: JSON.stringify({
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","owner":null,"criteria":{"onSale":true,"type":[],"rarity":["Epic"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  currentPrice\n  __typename\n}\n"})
+    })
+    .then(function(response) { 
+        return response.json(); 
+    })
         
-        QuerySaver(data, "LandSavannahPrice");
+    .then(function(data) {
+        QuerySaver(data, "ItemEpicPrice", "Item");
+    });
+
+    //ItemRarePrice
+    await  fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+            
+        body: JSON.stringify({
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","owner":null,"criteria":{"onSale":true,"type":[],"rarity":["Rare"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  currentPrice\n  __typename\n}\n"})
+    })
+    .then(function(response) { 
+        return response.json(); 
+    })
+        
+    .then(function(data) {
+        QuerySaver(data, "ItemRarePrice", "Item");
+    });
+
+    //ItemCommonPrice
+    await  fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+            
+        body: JSON.stringify({
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","owner":null,"criteria":{"onSale":true,"type":[],"rarity":["Common"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  currentPrice\n  __typename\n}\n"})
+    })
+    .then(function(response) { 
+        return response.json(); 
+    })
+        
+    .then(function(data) {
+        QuerySaver(data, "ItemCommonPrice", "Item");
     });
     
 }
 
-function QuerySaver(data, Category) {
+function QuerySaver(data, Category, QueryCat) {
     var Price = null;
-    try{
+
+    if(QueryCat == "Axie") {
         Price = data.data.axies.results[0].auction.currentPrice;
-    } catch {
+    } else if(QueryCat == "Land") {
         Price = data.data.lands.result[0].auction.currentPrice;
+    } else if(QueryCat == "Item") {
+        Price = data.data.items.results[0].auction.currentPrice;
     }
+
     Price = Price * Math.pow(10, -18);
     Price = Math.round((Price + Number.EPSILON) * 10000) / 10000
     document.getElementById(Category).innerHTML = Price + " ETH";
@@ -350,7 +433,6 @@ async function GetAccountData(ETHAddy) {
         }
     });
 
-    //Query Axie Floor Data
     //NormalAxieAmount
     await  fetch(url, {
         method: "POST",
@@ -368,7 +450,7 @@ async function GetAccountData(ETHAddy) {
     })
         
     .then(function(data) {
-        QuerySaverOwner(data, "NormalAxieAmount");
+        QuerySaverOwner(data, "NormalAxieAmount", "Axie");
     });
 
     //OriginAxieAmount
@@ -388,7 +470,7 @@ async function GetAccountData(ETHAddy) {
     })
         
     .then(function(data) {
-        QuerySaverOwner(data, "OriginAxieAmount");
+        QuerySaverOwner(data, "OriginAxieAmount", "Axie");
     });
 
     //MEO1AxieAmount
@@ -408,7 +490,7 @@ async function GetAccountData(ETHAddy) {
     })
         
     .then(function(data) {
-        QuerySaverOwner(data, "MEO1AxieAmount");
+        QuerySaverOwner(data, "MEO1AxieAmount", "Axie");
     });
 
     //MEO2AxieAmount
@@ -428,7 +510,7 @@ async function GetAccountData(ETHAddy) {
     })
         
     .then(function(data) {
-        QuerySaverOwner(data, "MEO2AxieAmount");
+        QuerySaverOwner(data, "MEO2AxieAmount", "Axie");
     });
 
     //Mystic1AxieAmount
@@ -448,7 +530,7 @@ async function GetAccountData(ETHAddy) {
     })
         
     .then(function(data) {
-        QuerySaverOwner(data, "Mystic1AxieAmount");
+        QuerySaverOwner(data, "Mystic1AxieAmount", "Axie");
     });
 
     //Mystic2AxieAmount
@@ -468,7 +550,7 @@ async function GetAccountData(ETHAddy) {
     })
         
     .then(function(data) {
-        QuerySaverOwner(data, "Mystic2AxieAmount");
+        QuerySaverOwner(data, "Mystic2AxieAmount", "Axie");
     });
 
     //Mystic3AxieAmount
@@ -488,7 +570,7 @@ async function GetAccountData(ETHAddy) {
     })
         
     .then(function(data) {
-        QuerySaverOwner(data, "Mystic3AxieAmount");
+        QuerySaverOwner(data, "Mystic3AxieAmount", "Axie");
     });
 
     //Mystic4AxieAmount
@@ -508,7 +590,7 @@ async function GetAccountData(ETHAddy) {
     })
         
     .then(function(data) {
-        QuerySaverOwner(data, "Mystic4AxieAmount");
+        QuerySaverOwner(data, "Mystic4AxieAmount", "Axie");
     });
 
     if(LoomAddy != "Fail") {
@@ -530,7 +612,7 @@ async function GetAccountData(ETHAddy) {
         })
             
         .then(function(data) {
-            QuerySaverOwner(data, "LandGenesisAmount");
+            QuerySaverOwner(data, "LandGenesisAmount", "Land");
         });
 
         //LandMysticAmount
@@ -550,7 +632,7 @@ async function GetAccountData(ETHAddy) {
         })
             
         .then(function(data) {
-            QuerySaverOwner(data, "LandMysticAmount");
+            QuerySaverOwner(data, "LandMysticAmount", "Land");
         });
 
         //LandArcticAmount
@@ -570,7 +652,7 @@ async function GetAccountData(ETHAddy) {
         })
             
         .then(function(data) {
-            QuerySaverOwner(data, "LandArcticAmount");
+            QuerySaverOwner(data, "LandArcticAmount", "Land");
         });
 
         //LandForestAmount
@@ -590,7 +672,7 @@ async function GetAccountData(ETHAddy) {
         })
             
         .then(function(data) {
-            QuerySaverOwner(data, "LandForestAmount");
+            QuerySaverOwner(data, "LandForestAmount", "Land");
         });
 
         //LandSavannahAmount
@@ -610,21 +692,108 @@ async function GetAccountData(ETHAddy) {
         })
             
         .then(function(data) {
-            QuerySaverOwner(data, "LandSavannahAmount");
+            QuerySaverOwner(data, "LandSavannahAmount", "Land");
         });
+
+        //ItemQuery
+        //ItemMysticPrice
+    await  fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+            
+        body: JSON.stringify({
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":0,"sort":"PriceAsc","owner":LoomAddy,"criteria":{"onSale":false,"type":[],"rarity":["Mystic"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    total\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  __typename\n}\n"})
+    })
+    .then(function(response) { 
+        return response.json(); 
+    })
+        
+    .then(function(data) {
+
+        QuerySaverOwner(data, "ItemMysticAmount", "Item");
+    });
+
+    //ItemEpicPrice
+    await  fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+            
+        body: JSON.stringify({
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":0,"sort":"PriceAsc","owner":LoomAddy,"criteria":{"onSale":false,"type":[],"rarity":["Epic"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    total\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  __typename\n}\n"})
+    })
+    .then(function(response) { 
+        return response.json(); 
+    })
+        
+    .then(function(data) {
+        QuerySaverOwner(data, "ItemEpicAmount", "Item");
+    });
+
+    //ItemRarePrice
+    await  fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+            
+        body: JSON.stringify({
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":0,"sort":"PriceAsc","owner":LoomAddy,"criteria":{"onSale":false,"type":[],"rarity":["Rare"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    total\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  __typename\n}\n"})
+    })
+    .then(function(response) { 
+        return response.json(); 
+    })
+        
+    .then(function(data) {
+        QuerySaverOwner(data, "ItemRareAmount", "Item");
+    });
+
+    //ItemCommonPrice
+    await  fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+            
+        body: JSON.stringify({
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":0,"sort":"PriceAsc","owner":LoomAddy,"criteria":{"onSale":false,"type":[],"rarity":["Common"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    total\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  __typename\n}\n"})
+    })
+    .then(function(response) { 
+        return response.json(); 
+    })
+        
+    .then(function(data) {
+        QuerySaverOwner(data, "ItemCommonAmount", "Item");
+    });
     }
     CalculateWorth();
 }
 
-function QuerySaverOwner(data, Category) {
+function QuerySaverOwner(data, Category, QueryCat) {
     var Menge = null;
-    try{
+
+    if(QueryCat == "Axie") {
         Menge = data.data.axies.total;
         AnzahlAxie.push({Type:Category, Anzahl:Menge});
-    } catch {
+    } else if(QueryCat == "Land") {
         Menge = data.data.lands.total;
         AnzahlAxie.push({Type:Category, Anzahl:Menge});
+    } else if(QueryCat == "Item") {
+        Menge = data.data.items.total;
+        AnzahlAxie.push({Type:Category, Anzahl:Menge});
     }
+
     document.getElementById(Category).innerHTML = Menge;
 }
 
@@ -649,6 +818,11 @@ function CalculateWorth() {
     document.getElementById("LandForestWorth").innerHTML = Math.round(((parseFloat(document.getElementById("LandForestPrice").innerHTML) * parseInt(document.getElementById("LandForestAmount").innerHTML)) + Number.EPSILON) * 10000) / 10000 + " ETH";
     document.getElementById("LandSavannahWorth").innerHTML = Math.round(((parseFloat(document.getElementById("LandSavannahPrice").innerHTML) * parseInt(document.getElementById("LandSavannahAmount").innerHTML)) + Number.EPSILON) * 10000) / 10000 + " ETH";
 
+    document.getElementById("ItemMysticWorth").innerHTML = Math.round(((parseFloat(document.getElementById("ItemMysticPrice").innerHTML) * parseInt(document.getElementById("ItemMysticAmount").innerHTML)) + Number.EPSILON) * 10000) / 10000 + " ETH";
+    document.getElementById("ItemEpicWorth").innerHTML = Math.round(((parseFloat(document.getElementById("ItemEpicPrice").innerHTML) * parseInt(document.getElementById("ItemEpicAmount").innerHTML)) + Number.EPSILON) * 10000) / 10000 + " ETH";
+    document.getElementById("ItemRareWorth").innerHTML = Math.round(((parseFloat(document.getElementById("ItemRarePrice").innerHTML) * parseInt(document.getElementById("ItemRareAmount").innerHTML)) + Number.EPSILON) * 10000) / 10000 + " ETH";
+    document.getElementById("ItemCommonWorth").innerHTML = Math.round(((parseFloat(document.getElementById("ItemCommonPrice").innerHTML) * parseInt(document.getElementById("ItemCommonAmount").innerHTML)) + Number.EPSILON) * 10000) / 10000 + " ETH";
+    
     DisplayTotal();
 }
 
@@ -662,9 +836,14 @@ function DisplayTotal() {
     LandWorth = Math.round((LandWorth + Number.EPSILON) * 10000) / 10000
     document.getElementById("EntireLandWorth").innerHTML = "Calculated Worth of all Landplots = " + LandWorth + " ETH";
 
-    var EntireWorth = AxieWorth + LandWorth;
-    document.getElementById("EntireAccountWorth").style.display = "inline";
-    document.getElementById("EntireAccountWorth").innerHTML = "The Axie Infinity Assets in this Address are worth " + EntireWorth + " ETH";
+    var ItemWorth = parseFloat(document.getElementById("ItemMysticWorth").innerHTML) + parseFloat(document.getElementById("ItemEpicWorth").innerHTML) + parseFloat(document.getElementById("ItemRareWorth").innerHTML) + parseFloat(document.getElementById("ItemCommonWorth").innerHTML);
+    ItemWorth = Math.round((ItemWorth + Number.EPSILON) * 10000) / 10000
+    document.getElementById("EntireItemWorth").innerHTML = "Calculated Worth of all Items = " + ItemWorth + " ETH";
+
+    var EntireWorth = AxieWorth + LandWorth + ItemWorth;
+    EntireWorth = Math.round((EntireWorth + Number.EPSILON) * 10000) / 10000
+    document.getElementById("EntireAccountWorth").style.display = "block";
+    document.getElementById("EntireAccountWorth").innerHTML = "This Address is worth " + EntireWorth + " ETH";
     
     var L = document.getElementById("lds-hourglass");
     L.style.display = "none";
