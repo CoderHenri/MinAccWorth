@@ -153,7 +153,7 @@ async function LoadFloorPrices() {
         
     .then(function(data) {
         
-        
+        console.log(data);
         QuerySaver(data, "Mystic3AxiePrice", "Axie");
     });
 
@@ -174,8 +174,9 @@ async function LoadFloorPrices() {
     })
         
     .then(function(data) {
-        
-        
+        if(data.data.axies.results.length == 0){
+            data = "NAN";
+        }
         QuerySaver(data, "Mystic4AxiePrice", "Axie");
     });
 
@@ -372,7 +373,9 @@ async function LoadFloorPrices() {
 function QuerySaver(data, Category, QueryCat) {
     var Price = null;
 
-    if(QueryCat == "Axie") {
+    if(data == "NAN") {
+        Price = 0;
+    }else if(QueryCat == "Axie") {
         Price = data.data.axies.results[0].auction.currentPrice;
     } else if(QueryCat == "Land") {
         Price = data.data.lands.result[0].auction.currentPrice;
