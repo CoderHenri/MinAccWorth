@@ -1,7 +1,7 @@
 var AnzahlAxie = [];
 
 async function LoadFloorPrices() {
-    var url = "https://axieinfinity.com/graphql-server/graphql";
+    var url = "https://axieinfinity.com/graphql-server-v2/graphql";
 
 
     //Query Axie Floor Data
@@ -14,8 +14,8 @@ async function LoadFloorPrices() {
         },
             
         body: JSON.stringify({
-            "operationName":"GetAxieBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","auctionType":"Sale","owner":null,"criteria":{"parts":null,"bodyShapes":null,"classes":null,"stages":null,"numMystic":null,"pureness":null,"title":null,"breedable":null,"breedCount":null,"hp":[],"skill":[],"speed":[],"morale":[]}},
-            "query":"query GetAxieBriefList($auctionType: AuctionType,  $criteria: AxieSearchCriteria, $from: Int, $sort: SortBy, $size: Int, $owner: String) {\n  axies(auctionType: $auctionType, criteria: $criteria, from: $from, sort: $sort, size: $size, owner: $owner) {\n    results {\n      ...AxieBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment AxieBrief on Axie {\n  auction {\n    currentPrice\n    __typename\n  }\n  __typename\n}\n"})
+            "operationName":"GetAxieBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","auctionType":"Sale","owner":null,"criteria":{"region":null,"parts":null,"bodyShapes":null,"classes":null,"stages":null,"numMystic":null,"pureness":null,"title":null,"breedable":null,"breedCount":null,"hp":[],"skill":[],"speed":[],"morale":[]}},
+            "query":"query GetAxieBriefList($auctionType: AuctionType, $criteria: AxieSearchCriteria, $from: Int, $sort: SortBy, $size: Int, $owner: String) {\n  axies(auctionType: $auctionType, criteria: $criteria, from: $from, sort: $sort, size: $size, owner: $owner) {\n    results {\n      ...AxieBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment AxieBrief on Axie {\n  auction {\n    currentPrice\n    __typename\n  }\n  __typename\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
@@ -152,8 +152,6 @@ async function LoadFloorPrices() {
     })
         
     .then(function(data) {
-        
-        console.log(data);
         QuerySaver(data, "Mystic3AxiePrice", "Axie");
     });
 
@@ -180,11 +178,9 @@ async function LoadFloorPrices() {
         QuerySaver(data, "Mystic4AxiePrice", "Axie");
     });
 
-    var urlRonin = "https://axieinfinity.com/graphql-server-v2/graphql";
-
     //Query Land Floor Data
     //LandGenesisPrice
-    await  fetch(urlRonin, {
+    await  fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -204,7 +200,7 @@ async function LoadFloorPrices() {
     });
 
     //LandMysticPrice
-    await  fetch(urlRonin, {
+    await  fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -226,7 +222,7 @@ async function LoadFloorPrices() {
     });
 
     //LandArcticPrice
-    await  fetch(urlRonin, {
+    await  fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -248,7 +244,7 @@ async function LoadFloorPrices() {
     });
 
     //LandForestPrice
-    await  fetch(urlRonin, {
+    await  fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -270,7 +266,7 @@ async function LoadFloorPrices() {
     });
 
     //LandSavannahPrice
-    await  fetch(urlRonin, {
+    await  fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -291,7 +287,7 @@ async function LoadFloorPrices() {
 
     //Query Item Floors
     //ItemMysticPrice
-    await  fetch(urlRonin, {
+    await  fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -311,7 +307,7 @@ async function LoadFloorPrices() {
     });
 
     //ItemEpicPrice
-    await  fetch(urlRonin, {
+    await  fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -331,7 +327,7 @@ async function LoadFloorPrices() {
     });
 
     //ItemRarePrice
-    await  fetch(urlRonin, {
+    await  fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -351,7 +347,7 @@ async function LoadFloorPrices() {
     });
 
     //ItemCommonPrice
-    await  fetch(urlRonin, {
+    await  fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -410,10 +406,10 @@ function SelectAddress() {
 
 async function GetAccountData(ETHAddy) {
     
-    var LoomAddy = null;
-    var url = "https://axieinfinity.com/graphql-server/graphql";
+    var RoninAddy = null;
+    var url = "https://axieinfinity.com/graphql-server-v2/graphql";
 
-    //Query Loom address and Profile Name
+    //Query Ronin address and Profile Name
     await  fetch(url, {
         method: "POST",
         headers: {
@@ -423,7 +419,7 @@ async function GetAccountData(ETHAddy) {
             
         body: JSON.stringify({
             "operationName":"GetProfileByEthAddress","variables":{"ethereumAddress":ETHAddy},
-            "query":"query GetProfileByEthAddress($ethereumAddress: String!) {\n  publicProfileWithEthereumAddress(ethereumAddress: $ethereumAddress) {\n    ...Profile\n    __typename\n  }\n}\n\nfragment Profile on PublicProfile {\n  name\n  addresses {\n    ...Addresses\n    __typename\n  }\n  __typename\n}\n\nfragment Addresses on NetAddresses {\n  loom\n  __typename\n}\n"})
+            "query":"query GetProfileByEthAddress($ethereumAddress: String!) {\n  publicProfileWithEthereumAddress(ethereumAddress: $ethereumAddress) {\n    ...Profile\n    __typename\n  }\n}\n\nfragment Profile on PublicProfile {\n  accountId\n  name\n  addresses {\n    ...Addresses\n    __typename\n  }\n  __typename\n}\n\nfragment Addresses on NetAddresses {\n  ethereum\n  tomo\n  loom\n  ronin\n  __typename\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
@@ -431,10 +427,10 @@ async function GetAccountData(ETHAddy) {
         
     .then(function(data) {
         try {
-            LoomAddy = data.data.publicProfileWithEthereumAddress.addresses.loom;
+            RoninAddy = data.data.publicProfileWithEthereumAddress.addresses.ronin;
         }
         catch {
-            LoomAddy = "Fail"
+            RoninAddy = "Fail"
         }
     });
 
@@ -598,7 +594,7 @@ async function GetAccountData(ETHAddy) {
         QuerySaverOwner(data, "Mystic4AxieAmount", "Axie");
     });
 
-    if(LoomAddy != "Fail") {
+    if(RoninAddy != "Fail") {
         //Query Land Floor Data
         //LandGenesisAmount
         await  fetch(url, {
@@ -609,8 +605,8 @@ async function GetAccountData(ETHAddy) {
             },
                 
             body: JSON.stringify({
-                "operationName":"GetLandsGrid","variables":{"from":0,"size":0,"sort":"PriceAsc","criteria":{"owner":LoomAddy,"type":["Genesis"]}},
-                "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: LandsSortBy!, $criteria: LandsCriteria) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort) {\n    total\n    result {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on Land {\n  __typename\n}\n"})
+                "operationName":"GetLandsGrid","variables":{"from":0,"size":0,"sort":"PriceAsc","auctionType":"All","owner":RoninAddy,"criteria":{"landType":["Genesis"]}},
+                "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    total\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  tokenId\n  owner\n  landType\n  row\n  col\n  auction {\n    currentPrice\n    startingTimestamp\n    currentPriceUSD\n    __typename\n  }\n  ownerProfile {\n    name\n    __typename\n  }\n  __typename\n}\n"})
         })
         .then(function(response) { 
             return response.json(); 
@@ -629,8 +625,8 @@ async function GetAccountData(ETHAddy) {
             },
                 
             body: JSON.stringify({
-                "operationName":"GetLandsGrid","variables":{"from":0,"size":0,"sort":"PriceAsc","criteria":{"owner":LoomAddy,"type":["Mystic"]}},
-                "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: LandsSortBy!, $criteria: LandsCriteria) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort) {\n    total\n    result {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on Land {\n  __typename\n}\n"})
+                "operationName":"GetLandsGrid","variables":{"from":0,"size":0,"sort":"PriceAsc","auctionType":"All","owner":RoninAddy,"criteria":{"landType":["Mystic"]}},
+                "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    total\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  tokenId\n  owner\n  landType\n  row\n  col\n  auction {\n    currentPrice\n    startingTimestamp\n    currentPriceUSD\n    __typename\n  }\n  ownerProfile {\n    name\n    __typename\n  }\n  __typename\n}\n"})
         })
         .then(function(response) { 
             return response.json(); 
@@ -649,8 +645,8 @@ async function GetAccountData(ETHAddy) {
             },
                 
             body: JSON.stringify({
-                "operationName":"GetLandsGrid","variables":{"from":0,"size":0,"sort":"PriceAsc","criteria":{"owner":LoomAddy,"type":["Arctic"]}},
-                "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: LandsSortBy!, $criteria: LandsCriteria) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort) {\n    total\n    result {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on Land {\n  __typename\n}\n"})
+                "operationName":"GetLandsGrid","variables":{"from":0,"size":0,"sort":"PriceAsc","auctionType":"All","owner":RoninAddy,"criteria":{"landType":["Arctic"]}},
+                "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    total\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  tokenId\n  owner\n  landType\n  row\n  col\n  auction {\n    currentPrice\n    startingTimestamp\n    currentPriceUSD\n    __typename\n  }\n  ownerProfile {\n    name\n    __typename\n  }\n  __typename\n}\n"})
         })
         .then(function(response) { 
             return response.json(); 
@@ -669,8 +665,8 @@ async function GetAccountData(ETHAddy) {
             },
                 
             body: JSON.stringify({
-                "operationName":"GetLandsGrid","variables":{"from":0,"size":0,"sort":"PriceAsc","criteria":{"owner":LoomAddy,"type":["Forest"]}},
-                "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: LandsSortBy!, $criteria: LandsCriteria) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort) {\n    total\n    result {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on Land {\n  __typename\n}\n"})
+                "operationName":"GetLandsGrid","variables":{"from":0,"size":0,"sort":"PriceAsc","auctionType":"All","owner":RoninAddy,"criteria":{"landType":["Forest"]}},
+                "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    total\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  tokenId\n  owner\n  landType\n  row\n  col\n  auction {\n    currentPrice\n    startingTimestamp\n    currentPriceUSD\n    __typename\n  }\n  ownerProfile {\n    name\n    __typename\n  }\n  __typename\n}\n"})
         })
         .then(function(response) { 
             return response.json(); 
@@ -689,8 +685,8 @@ async function GetAccountData(ETHAddy) {
             },
                 
             body: JSON.stringify({
-                "operationName":"GetLandsGrid","variables":{"from":0,"size":0,"sort":"PriceAsc","criteria":{"owner":LoomAddy,"type":["Savannah"]}},
-                "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: LandsSortBy!, $criteria: LandsCriteria) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort) {\n    total\n    result {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on Land {\n  __typename\n}\n"})
+                "operationName":"GetLandsGrid","variables":{"from":0,"size":0,"sort":"PriceAsc","auctionType":"All","owner":RoninAddy,"criteria":{"landType":["Savannah"]}},
+                "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    total\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  tokenId\n  owner\n  landType\n  row\n  col\n  auction {\n    currentPrice\n    startingTimestamp\n    currentPriceUSD\n    __typename\n  }\n  ownerProfile {\n    name\n    __typename\n  }\n  __typename\n}\n"})
         })
         .then(function(response) { 
             return response.json(); 
@@ -710,8 +706,8 @@ async function GetAccountData(ETHAddy) {
         },
             
         body: JSON.stringify({
-            "operationName":"GetItemBriefList","variables":{"from":0,"size":0,"sort":"PriceAsc","owner":LoomAddy,"criteria":{"onSale":false,"type":[],"rarity":["Mystic"],"itemAlias":[]}},
-            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    total\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  __typename\n}\n"})
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":0,"sort":"PriceAsc","owner":RoninAddy,"auctionType":"All","criteria":{"landType":[],"rarity":["Mystic"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $auctionType: AuctionType, $owner: String, $criteria: ItemSearchCriteria) {\n  items(from: $from, size: $size, sort: $sort, auctionType: $auctionType, owner: $owner, criteria: $criteria) {\n    total\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on LandItem {\n  itemId\n  tokenType\n  tokenId\n  itemId\n  landType\n  name\n  itemAlias\n  rarity\n  figureURL\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  startingPrice\n  endingPrice\n  startingTimestamp\n  endingTimestamp\n  duration\n  timeLeft\n  currentPrice\n  currentPriceUSD\n  suggestedPrice\n  seller\n  listingIndex\n  __typename\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
@@ -731,8 +727,8 @@ async function GetAccountData(ETHAddy) {
         },
             
         body: JSON.stringify({
-            "operationName":"GetItemBriefList","variables":{"from":0,"size":0,"sort":"PriceAsc","owner":LoomAddy,"criteria":{"onSale":false,"type":[],"rarity":["Epic"],"itemAlias":[]}},
-            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    total\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  __typename\n}\n"})
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":0,"sort":"PriceAsc","owner":RoninAddy,"auctionType":"All","criteria":{"landType":[],"rarity":["Epic"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $auctionType: AuctionType, $owner: String, $criteria: ItemSearchCriteria) {\n  items(from: $from, size: $size, sort: $sort, auctionType: $auctionType, owner: $owner, criteria: $criteria) {\n    total\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on LandItem {\n  itemId\n  tokenType\n  tokenId\n  itemId\n  landType\n  name\n  itemAlias\n  rarity\n  figureURL\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  startingPrice\n  endingPrice\n  startingTimestamp\n  endingTimestamp\n  duration\n  timeLeft\n  currentPrice\n  currentPriceUSD\n  suggestedPrice\n  seller\n  listingIndex\n  __typename\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
@@ -751,8 +747,8 @@ async function GetAccountData(ETHAddy) {
         },
             
         body: JSON.stringify({
-            "operationName":"GetItemBriefList","variables":{"from":0,"size":0,"sort":"PriceAsc","owner":LoomAddy,"criteria":{"onSale":false,"type":[],"rarity":["Rare"],"itemAlias":[]}},
-            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    total\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  __typename\n}\n"})
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":0,"sort":"PriceAsc","owner":RoninAddy,"auctionType":"All","criteria":{"landType":[],"rarity":["Rare"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $auctionType: AuctionType, $owner: String, $criteria: ItemSearchCriteria) {\n  items(from: $from, size: $size, sort: $sort, auctionType: $auctionType, owner: $owner, criteria: $criteria) {\n    total\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on LandItem {\n  itemId\n  tokenType\n  tokenId\n  itemId\n  landType\n  name\n  itemAlias\n  rarity\n  figureURL\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  startingPrice\n  endingPrice\n  startingTimestamp\n  endingTimestamp\n  duration\n  timeLeft\n  currentPrice\n  currentPriceUSD\n  suggestedPrice\n  seller\n  listingIndex\n  __typename\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
@@ -771,8 +767,8 @@ async function GetAccountData(ETHAddy) {
         },
             
         body: JSON.stringify({
-            "operationName":"GetItemBriefList","variables":{"from":0,"size":0,"sort":"PriceAsc","owner":LoomAddy,"criteria":{"onSale":false,"type":[],"rarity":["Common"],"itemAlias":[]}},
-            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    total\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  __typename\n}\n"})
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":0,"sort":"PriceAsc","owner":RoninAddy,"auctionType":"All","criteria":{"landType":[],"rarity":["Common"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $auctionType: AuctionType, $owner: String, $criteria: ItemSearchCriteria) {\n  items(from: $from, size: $size, sort: $sort, auctionType: $auctionType, owner: $owner, criteria: $criteria) {\n    total\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on LandItem {\n  itemId\n  tokenType\n  tokenId\n  itemId\n  landType\n  name\n  itemAlias\n  rarity\n  figureURL\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  startingPrice\n  endingPrice\n  startingTimestamp\n  endingTimestamp\n  duration\n  timeLeft\n  currentPrice\n  currentPriceUSD\n  suggestedPrice\n  seller\n  listingIndex\n  __typename\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
