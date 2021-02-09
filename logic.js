@@ -1,8 +1,37 @@
 var AnzahlAxie = [];
+var LandGrid = [];
+
+async function ReadTextFile() {
+
+    LandGrid = await AsyncTextReader();
+    return LandGrid;
+}
+
+function AsyncTextReader() {
+    return new Promise(function (resolve, reject) {
+        var objXMLhttp = new XMLHttpRequest()
+        objXMLhttp.open("GET", './Land_Grid_Data_Multiplier_V1.txt', true);
+        objXMLhttp.send();
+        objXMLhttp.onreadystatechange = function(){
+        if (objXMLhttp.readyState == 4){
+          if(objXMLhttp.status == 200) {
+            var TestParse = objXMLhttp.responseText;
+            TestParse = JSON.parse(TestParse);
+            return resolve(TestParse);
+          } else {
+            console.log("error");
+            return resolve("error");
+          }
+        }
+      }
+    });
+}
 
 async function LoadFloorPrices() {
     var url = "https://axieinfinity.com/graphql-server-v2/graphql";
 
+    await ReadTextFile();
+    console.log(LandGrid);
 
     //Query Axie Floor Data
     //NormalAxiePrice
@@ -849,3 +878,4 @@ function DisplayTotal() {
     var L = document.getElementById("lds-hourglass");
     L.style.display = "none";
 }
+
