@@ -200,7 +200,6 @@ async function LoadFloorPrices() {
     })
         
     .then(function(data) {
-        console.log(data);
         QuerySaver(data, "LandGenesisPrice", "Land");
     });
 
@@ -292,7 +291,7 @@ async function LoadFloorPrices() {
 
     //Query Item Floors
     //ItemMysticPrice
-    await  fetch(url, {
+    await  fetch(urlRonin, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -300,8 +299,8 @@ async function LoadFloorPrices() {
         },
             
         body: JSON.stringify({
-            "operationName":"GetItemBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","owner":null,"criteria":{"onSale":true,"type":[],"rarity":["Mystic"],"itemAlias":[]}},
-            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  currentPrice\n  __typename\n}\n"})
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","owner":null,"auctionType":"Sale","criteria":{"landType":[],"rarity":["Mystic"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $auctionType: AuctionType, $owner: String, $criteria: ItemSearchCriteria) {\n  items(from: $from, size: $size, sort: $sort, auctionType: $auctionType, owner: $owner, criteria: $criteria) {\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on LandItem {\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  currentPrice\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
@@ -312,7 +311,7 @@ async function LoadFloorPrices() {
     });
 
     //ItemEpicPrice
-    await  fetch(url, {
+    await  fetch(urlRonin, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -320,8 +319,8 @@ async function LoadFloorPrices() {
         },
             
         body: JSON.stringify({
-            "operationName":"GetItemBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","owner":null,"criteria":{"onSale":true,"type":[],"rarity":["Epic"],"itemAlias":[]}},
-            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  currentPrice\n  __typename\n}\n"})
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","owner":null,"auctionType":"Sale","criteria":{"landType":[],"rarity":["Epic"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $auctionType: AuctionType, $owner: String, $criteria: ItemSearchCriteria) {\n  items(from: $from, size: $size, sort: $sort, auctionType: $auctionType, owner: $owner, criteria: $criteria) {\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on LandItem {\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  currentPrice\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
@@ -332,7 +331,7 @@ async function LoadFloorPrices() {
     });
 
     //ItemRarePrice
-    await  fetch(url, {
+    await  fetch(urlRonin, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -340,8 +339,8 @@ async function LoadFloorPrices() {
         },
             
         body: JSON.stringify({
-            "operationName":"GetItemBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","owner":null,"criteria":{"onSale":true,"type":[],"rarity":["Rare"],"itemAlias":[]}},
-            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  currentPrice\n  __typename\n}\n"})
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","owner":null,"auctionType":"Sale","criteria":{"landType":[],"rarity":["Rare"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $auctionType: AuctionType, $owner: String, $criteria: ItemSearchCriteria) {\n  items(from: $from, size: $size, sort: $sort, auctionType: $auctionType, owner: $owner, criteria: $criteria) {\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on LandItem {\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  currentPrice\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
@@ -352,7 +351,7 @@ async function LoadFloorPrices() {
     });
 
     //ItemCommonPrice
-    await  fetch(url, {
+    await  fetch(urlRonin, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -360,8 +359,8 @@ async function LoadFloorPrices() {
         },
             
         body: JSON.stringify({
-            "operationName":"GetItemBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","owner":null,"criteria":{"onSale":true,"type":[],"rarity":["Common"],"itemAlias":[]}},
-            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $criteria: ItemsCriteria, $owner: String) {\n  items(from: $from, size: $size, sort: $sort, criteria: $criteria, owner: $owner) {\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on Item {\n auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  currentPrice\n  __typename\n}\n"})
+            "operationName":"GetItemBriefList","variables":{"from":0,"size":1,"sort":"PriceAsc","owner":null,"auctionType":"Sale","criteria":{"landType":[],"rarity":["Common"],"itemAlias":[]}},
+            "query":"query GetItemBriefList($from: Int, $size: Int, $sort: SortBy, $auctionType: AuctionType, $owner: String, $criteria: ItemSearchCriteria) {\n  items(from: $from, size: $size, sort: $sort, auctionType: $auctionType, owner: $owner, criteria: $criteria) {\n    results {\n      ...ItemBrief\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment ItemBrief on LandItem {\n  auction {\n    ...AxieAuction\n    __typename\n  }\n  __typename\n}\n\nfragment AxieAuction on Auction {\n  currentPrice\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
