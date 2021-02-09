@@ -180,9 +180,11 @@ async function LoadFloorPrices() {
         QuerySaver(data, "Mystic4AxiePrice", "Axie");
     });
 
+    var urlRonin = "https://axieinfinity.com/graphql-server-v2/graphql";
+
     //Query Land Floor Data
     //LandGenesisPrice
-    await  fetch(url, {
+    await  fetch(urlRonin, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -190,19 +192,20 @@ async function LoadFloorPrices() {
         },
             
         body: JSON.stringify({
-            "operationName":"GetLandsGrid","variables":{"from":0,"size":1,"sort":"PriceAsc","criteria":{"onSale":true,"owner":null,"type":["Genesis"]}},
-            "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: LandsSortBy!, $criteria: LandsCriteria) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort) {\n    result {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on Land {\n  auction {\n    currentPrice\n    __typename\n  }\n  __typename\n}\n"})
+            "operationName":"GetLandsGrid","variables":{"from":0,"size":1,"sort":"PriceAsc","auctionType":"Sale","owner":null,"criteria":{"landType":["Genesis"]}},
+            "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  auction {\n    currentPrice\n  }\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
     })
         
     .then(function(data) {
+        console.log(data);
         QuerySaver(data, "LandGenesisPrice", "Land");
     });
 
     //LandMysticPrice
-    await  fetch(url, {
+    await  fetch(urlRonin, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -210,8 +213,8 @@ async function LoadFloorPrices() {
         },
             
         body: JSON.stringify({
-            "operationName":"GetLandsGrid","variables":{"from":0,"size":1,"sort":"PriceAsc","criteria":{"onSale":true,"owner":null,"type":["Mystic"]}},
-            "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: LandsSortBy!, $criteria: LandsCriteria) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort) {\n    result {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on Land {\n  auction {\n    currentPrice\n    __typename\n  }\n  __typename\n}\n"})
+            "operationName":"GetLandsGrid","variables":{"from":0,"size":1,"sort":"PriceAsc","auctionType":"Sale","owner":null,"criteria":{"landType":["Mystic"]}},
+            "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  auction {\n    currentPrice\n  }\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
@@ -224,7 +227,7 @@ async function LoadFloorPrices() {
     });
 
     //LandArcticPrice
-    await  fetch(url, {
+    await  fetch(urlRonin, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -232,8 +235,8 @@ async function LoadFloorPrices() {
         },
             
         body: JSON.stringify({
-            "operationName":"GetLandsGrid","variables":{"from":0,"size":1,"sort":"PriceAsc","criteria":{"onSale":true,"owner":null,"type":["Arctic"]}},
-            "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: LandsSortBy!, $criteria: LandsCriteria) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort) {\n    result {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on Land {\n  auction {\n    currentPrice\n    __typename\n  }\n  __typename\n}\n"})
+            "operationName":"GetLandsGrid","variables":{"from":0,"size":1,"sort":"PriceAsc","auctionType":"Sale","owner":null,"criteria":{"landType":["Arctic"]}},
+            "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  auction {\n    currentPrice\n  }\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
@@ -246,7 +249,7 @@ async function LoadFloorPrices() {
     });
 
     //LandForestPrice
-    await  fetch(url, {
+    await  fetch(urlRonin, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -254,8 +257,8 @@ async function LoadFloorPrices() {
         },
             
         body: JSON.stringify({
-            "operationName":"GetLandsGrid","variables":{"from":0,"size":1,"sort":"PriceAsc","criteria":{"onSale":true,"owner":null,"type":["Forest"]}},
-            "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: LandsSortBy!, $criteria: LandsCriteria) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort) {\n    result {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on Land {\n  auction {\n    currentPrice\n    __typename\n  }\n  __typename\n}\n"})
+            "operationName":"GetLandsGrid","variables":{"from":0,"size":1,"sort":"PriceAsc","auctionType":"Sale","owner":null,"criteria":{"landType":["Forest"]}},
+            "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  auction {\n    currentPrice\n  }\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
@@ -268,7 +271,7 @@ async function LoadFloorPrices() {
     });
 
     //LandSavannahPrice
-    await  fetch(url, {
+    await  fetch(urlRonin, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -276,8 +279,8 @@ async function LoadFloorPrices() {
         },
             
         body: JSON.stringify({
-            "operationName":"GetLandsGrid","variables":{"from":0,"size":1,"sort":"PriceAsc","criteria":{"onSale":true,"owner":null,"type":["Savannah"]}},
-            "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: LandsSortBy!, $criteria: LandsCriteria) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort) {\n    result {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on Land {\n  auction {\n    currentPrice\n    __typename\n  }\n  __typename\n}\n"})
+            "operationName":"GetLandsGrid","variables":{"from":0,"size":1,"sort":"PriceAsc","auctionType":"Sale","owner":null,"criteria":{"landType":["Savannah"]}},
+            "query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  auction {\n    currentPrice\n  }\n}\n"})
     })
     .then(function(response) { 
         return response.json(); 
@@ -378,7 +381,7 @@ function QuerySaver(data, Category, QueryCat) {
     }else if(QueryCat == "Axie") {
         Price = data.data.axies.results[0].auction.currentPrice;
     } else if(QueryCat == "Land") {
-        Price = data.data.lands.result[0].auction.currentPrice;
+        Price = data.data.lands.results[0].auction.currentPrice;
     } else if(QueryCat == "Item") {
         Price = data.data.items.results[0].auction.currentPrice;
     }
