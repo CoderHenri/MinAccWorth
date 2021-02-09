@@ -1,10 +1,12 @@
 var AnzahlAxie = [];
-var LandGrid = [];
+var LandGridAll = [];
+var LandGridOwner = [];
+var SortedLandGridOwner = [];
 
 async function ReadTextFile() {
 
-    LandGrid = await AsyncTextReader();
-    return LandGrid;
+    LandGridAll = await AsyncTextReader();
+    return LandGridAll;
 }
 
 function AsyncTextReader() {
@@ -31,7 +33,7 @@ async function LoadFloorPrices() {
     var url = "https://axieinfinity.com/graphql-server-v2/graphql";
 
     await ReadTextFile();
-    console.log(LandGrid);
+    console.log(LandGridAll);
 
     //Query Axie Floor Data
     //NormalAxiePrice
@@ -623,7 +625,42 @@ async function GetAccountData(ETHAddy) {
         QuerySaverOwner(data, "Mystic4AxieAmount", "Axie");
     });
 
+    //Query all Land of that address
     if(RoninAddy != "Fail") {
+        var TotalLand = 1;
+        var From = 0;
+
+        for(L = 0; L < TotalLand; L++) {
+            await  fetch(url, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                },
+                    
+                body: JSON.stringify({
+                    "operationName":"GetLandsGrid","variables":{"from":From,"size":6000,"sort":"Latest","auctionType":"All","owner":RoninAddy,
+                    "criteria":{"landType":[]}},"query":"query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    total\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  landType\n  row\n  col\n    __typename\n}\n"})
+            })
+            .then(function(response) { 
+                return response.json(); 
+            })
+                
+            .then(function(data) {
+                LandGridOwner.push(data);
+                From = From + 100;
+                if(data.data.lands.total - From > TotalLand) {
+                    TotalLand = TotalLand +1;
+                } else {
+                    RoninQuerySorter(LandGridOwner);
+                }
+                //QuerySaverOwner(data, "LandGenesisAmount", "Land");
+            });
+        }
+    }
+
+    if(RoninAddy != "Fail") {
+        /*
         //Query Land Floor Data
         //LandGenesisAmount
         await  fetch(url, {
@@ -724,7 +761,7 @@ async function GetAccountData(ETHAddy) {
         .then(function(data) {
             QuerySaverOwner(data, "LandSavannahAmount", "Land");
         });
-
+*/
         //ItemQuery
         //ItemMysticPrice
     await  fetch(url, {
@@ -874,8 +911,55 @@ function DisplayTotal() {
     EntireWorth = Math.round((EntireWorth + Number.EPSILON) * 10000) / 10000
     document.getElementById("EntireAccountWorth").style.display = "block";
     document.getElementById("EntireAccountWorth").innerHTML = "This Address is worth " + EntireWorth + " ETH";
+
+    AdvancedEstateCalc();
     
     var L = document.getElementById("lds-hourglass");
     L.style.display = "none";
 }
 
+function RoninQuerySorter(Array) {
+    
+    for(i=0; i < Array.length; i++) {
+        for(j=0; j < Array[i].data.lands.results.length; j++) {
+            SortedLandGridOwner.push({landType:Array[i].data.lands.results[j].landType, row:Array[i].data.lands.results[j].row, col:Array[i].data.lands.results[j].col});
+        }
+    }
+    console.log(SortedLandGridOwner);
+
+    var AnzahlGen = 0;
+    var AnzahlMystic = 0;
+    var AnzahlArctic = 0;
+    var AnzahlForest = 0;
+    var AnzahlSavannah = 0;
+
+    for(k=0; k < SortedLandGridOwner.length; k++) {
+        if(SortedLandGridOwner[k].landType == "Genesis") {
+            AnzahlGen++;
+        } else if(SortedLandGridOwner[k].landType == "Mystic") {
+            AnzahlMystic++;
+        } else if(SortedLandGridOwner[k].landType == "Arctic") {
+            AnzahlArctic++;
+        } else if(SortedLandGridOwner[k].landType == "Forest") {
+            AnzahlForest++;
+        } else if(SortedLandGridOwner[k].landType == "Savannah") {
+            AnzahlSavannah++;
+        }
+    }
+
+    AnzahlAxie.push({Type:"LandGenesisAmount", Anzahl:AnzahlGen});
+    AnzahlAxie.push({Type:"LandMysticAmount", Anzahl:AnzahlMystic});
+    AnzahlAxie.push({Type:"LandArcticAmount", Anzahl:AnzahlArctic});
+    AnzahlAxie.push({Type:"LandForestAmount", Anzahl:AnzahlForest});
+    AnzahlAxie.push({Type:"LandSavannahAmount", Anzahl:AnzahlSavannah});
+
+    document.getElementById("LandGenesisAmount").innerHTML = AnzahlGen;
+    document.getElementById("LandMysticAmount").innerHTML = AnzahlMystic;
+    document.getElementById("LandArcticAmount").innerHTML = AnzahlArctic;
+    document.getElementById("LandForestAmount").innerHTML = AnzahlForest;
+    document.getElementById("LandSavannahAmount").innerHTML = AnzahlSavannah;
+}
+
+function AdvancedEstateCalc() {
+    console.log(SortedLandGridOwner);
+}
