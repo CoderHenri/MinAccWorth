@@ -961,5 +961,105 @@ function RoninQuerySorter(Array) {
 }
 
 function AdvancedEstateCalc() {
-    console.log(SortedLandGridOwner);
+    
+    var GenesisTempArray = [];
+    var MysticTempArray = [];
+    var ArcticTempArray = [];
+    var ForestTempArray = [];
+    var SavannahTempArray = [];
+
+    var EstateArray = [];
+
+    for(i=0; i < SortedLandGridOwner.length; i++) {
+        if(SortedLandGridOwner[i].landType == "Genesis") {
+            GenesisTempArray.push(SortedLandGridOwner[i]);
+        } else if(SortedLandGridOwner[i].landType == "Mystic") {
+            MysticTempArray.push(SortedLandGridOwner[i]);
+        } else if(SortedLandGridOwner[i].landType == "Arctic") {
+            ArcticTempArray.push(SortedLandGridOwner[i]);
+        } else if(SortedLandGridOwner[i].landType == "Forest") {
+            ForestTempArray.push(SortedLandGridOwner[i]);
+        } else if(SortedLandGridOwner[i].landType == "Savannah") {
+            SavannahTempArray.push(SortedLandGridOwner[i]);
+        }
+    }
+
+    if(GenesisTempArray.length > 8) {
+        EstateArrayMaker(GenesisTempArray, EstateArray);
+    }
+    if(MysticTempArray.length > 8) {
+        EstateArrayMaker(MysticTempArray, EstateArray);
+    }
+    if(ArcticTempArray.length > 8) {
+        //EstateArrayMaker(ArcticTempArray, EstateArray);
+    }
+    if(ForestTempArray.length > 8) {
+        //EstateArrayMaker(ForestTempArray, EstateArray);
+    }
+    if(SavannahTempArray.length > 8) {
+        EstateArrayMaker(SavannahTempArray, EstateArray);
+    }
+    
+
+}
+
+function EstateArrayMaker(Array, EstateArray) {
+    var TempArray = [];
+    console.log(Array);
+    console.log(Array[6].row);
+
+    for(i = 0; i < Array.length; i++) {
+        
+        TempArray.push({col:Array[i].col, row:Array[i].row, landType:Array[i].landType});
+        console.log(TempArray);
+        console.log(i);
+    }
+/*
+        for(k=0; k < Array.length; k++) {
+            try{ 
+                if(Array[k].row == TempArray[i].row - 1 && Array[k].col == TempArray[i].col - 1) {
+                    TempArray.push(Array[k]);
+                    delete Array[k];
+                    Tester = "True";
+                } else if(Array[k].row == TempArray[i].row && Array[k].col == TempArray[i].col - 1) {
+                    TempArray.push(Array[k]);
+                    delete Array[k];
+                    Tester = "True";
+                } else if(Array[k].row == TempArray[i].row + 1 && Array[k].col == TempArray[i].col - 1) {
+                    TempArray.push(Array[k]);
+                    delete Array[k];
+                    Tester = "True";
+                } else if(Array[k].row == TempArray[i].row - 1 && Array[k].col == TempArray[i].col) {
+                    TempArray.push(Array[k]);
+                    delete Array[k];
+                    Tester = "True";
+                } else if(Array[k].row == TempArray[i].row + 1 && Array[k].col == TempArray[i].col) {
+                    TempArray.push(Array[k]);
+                    delete Array[k];
+                    Tester = "True";
+                } else if(Array[k].row == TempArray[i].row - 1 && Array[k].col == TempArray[i].col + 1) {
+                    TempArray.push(Array[k]);
+                    delete Array[k];
+                    Tester = "True";
+                } else if(Array[k].row == TempArray[i].row && Array[k].col == TempArray[i].col + 1) {
+                    TempArray.push(Array[k]);
+                    delete Array[k];
+                    Tester = "True";
+                } else if(Array[k].row == TempArray[i].row + 1 && Array[k].col == TempArray[i].col + 1) {
+                    TempArray.push(Array[k]);
+                    delete Array[k];
+                    Tester = "True";
+                }
+            } catch {console.log(k + " Catch");}
+        }
+        console.log("search fertig");
+        console.log(TempArray);
+        if(TempArray.length > 8) {
+            EstateArray.push(TempArray);
+            TempArray = [];
+        } else {
+            TempArray = [];
+        }*/
+    
+    console.log(EstateArray);
 }
