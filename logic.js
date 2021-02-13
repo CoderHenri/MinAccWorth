@@ -3,6 +3,10 @@ var LandGridAll = [];
 var LandGridOwner = [];
 var SortedLandGridOwner = [];
 
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function ReadTextFile() {
 
     LandGridAll = await AsyncTextReader();
@@ -961,6 +965,8 @@ function RoninQuerySorter(Array) {
 }
 
 function AdvancedEstateCalc() {
+
+    timeout(3000);
     
     var GenesisTempArray = [];
     var MysticTempArray = [];
@@ -985,16 +991,16 @@ function AdvancedEstateCalc() {
     }
 
     if(GenesisTempArray.length > 8) {
-        EstateArrayMaker(GenesisTempArray, EstateArray);
+        //EstateArrayMaker(GenesisTempArray, EstateArray);
     }
     if(MysticTempArray.length > 8) {
-        EstateArrayMaker(MysticTempArray, EstateArray);
+        //EstateArrayMaker(MysticTempArray, EstateArray);
     }
     if(ArcticTempArray.length > 8) {
         //EstateArrayMaker(ArcticTempArray, EstateArray);
     }
     if(ForestTempArray.length > 8) {
-        //EstateArrayMaker(ForestTempArray, EstateArray);
+        EstateArrayMaker(ForestTempArray, EstateArray);
     }
     if(SavannahTempArray.length > 8) {
         EstateArrayMaker(SavannahTempArray, EstateArray);
@@ -1004,62 +1010,63 @@ function AdvancedEstateCalc() {
 }
 
 function EstateArrayMaker(Array, EstateArray) {
+    var CoordArray = JSON.parse(JSON.stringify(Array));
     var TempArray = [];
-    console.log(Array);
-    console.log(Array[6].row);
-
-    for(i = 0; i < Array.length; i++) {
-        
-        TempArray.push({col:Array[i].col, row:Array[i].row, landType:Array[i].landType});
-        console.log(TempArray);
-        console.log(i);
-    }
-/*
-        for(k=0; k < Array.length; k++) {
-            try{ 
-                if(Array[k].row == TempArray[i].row - 1 && Array[k].col == TempArray[i].col - 1) {
-                    TempArray.push(Array[k]);
-                    delete Array[k];
-                    Tester = "True";
-                } else if(Array[k].row == TempArray[i].row && Array[k].col == TempArray[i].col - 1) {
-                    TempArray.push(Array[k]);
-                    delete Array[k];
-                    Tester = "True";
-                } else if(Array[k].row == TempArray[i].row + 1 && Array[k].col == TempArray[i].col - 1) {
-                    TempArray.push(Array[k]);
-                    delete Array[k];
-                    Tester = "True";
-                } else if(Array[k].row == TempArray[i].row - 1 && Array[k].col == TempArray[i].col) {
-                    TempArray.push(Array[k]);
-                    delete Array[k];
-                    Tester = "True";
-                } else if(Array[k].row == TempArray[i].row + 1 && Array[k].col == TempArray[i].col) {
-                    TempArray.push(Array[k]);
-                    delete Array[k];
-                    Tester = "True";
-                } else if(Array[k].row == TempArray[i].row - 1 && Array[k].col == TempArray[i].col + 1) {
-                    TempArray.push(Array[k]);
-                    delete Array[k];
-                    Tester = "True";
-                } else if(Array[k].row == TempArray[i].row && Array[k].col == TempArray[i].col + 1) {
-                    TempArray.push(Array[k]);
-                    delete Array[k];
-                    Tester = "True";
-                } else if(Array[k].row == TempArray[i].row + 1 && Array[k].col == TempArray[i].col + 1) {
-                    TempArray.push(Array[k]);
-                    delete Array[k];
-                    Tester = "True";
-                }
-            } catch {console.log(k + " Catch");}
+    
+    for(i=0; i<Array.length; i++) {
+        if(Array[i].row == CoordArray[i].row) {
+            TempArray.push(Array[i])
+            CoordArray[i].row = 999;
         }
-        console.log("search fertig");
-        console.log(TempArray);
+
+        try{for(j=0; j<Array.length; j++) {
+            for(k=0; k<Array.length; k++) {
+                if(TempArray[j].row -1 == Array[k].row && TempArray[j].col -1 == Array[k].col && CoordArray[k].row == Array[k].row) {
+                    TempArray.push(Array[k]);
+                    CoordArray[k].row = 999;
+                }
+                if(TempArray[j].row == Array[k].row && TempArray[j].col -1 == Array[k].col && CoordArray[k].row == Array[k].row) {
+                    TempArray.push(Array[k]);
+                    CoordArray[k].row = 999;
+                }
+                if(TempArray[j].row +1 == Array[k].row && TempArray[j].col -1 == Array[k].col && CoordArray[k].row == Array[k].row) {
+                    TempArray.push(Array[k]);
+                    CoordArray[k].row = 999;
+                }
+                if(TempArray[j].row -1 == Array[k].row && TempArray[j].col == Array[k].col && CoordArray[k].row == Array[k].row) {
+                    TempArray.push(Array[k]);
+                    CoordArray[k].row = 999;
+                }
+                if(TempArray[j].row +1 == Array[k].row && TempArray[j].col == Array[k].col && CoordArray[k].row == Array[k].row) {
+                    TempArray.push(Array[k]);
+                    CoordArray[k].row = 999;
+                }
+                if(TempArray[j].row -1 == Array[k].row && TempArray[j].col +1 == Array[k].col && CoordArray[k].row == Array[k].row) {
+                    TempArray.push(Array[k]);
+                    CoordArray[k].row = 999;
+                }
+                if(TempArray[j].row == Array[k].row && TempArray[j].col +1 == Array[k].col && CoordArray[k].row == Array[k].row) {
+                    TempArray.push(Array[k]);
+                    CoordArray[k].row = 999;
+                }
+                if(TempArray[j].row +1 == Array[k].row && TempArray[j].col +1 == Array[k].col && CoordArray[k].row == Array[k].row) {
+                    TempArray.push(Array[k]);
+                    CoordArray[k].row = 999;
+                }
+            }
+            if(j==TempArray.length-1) {
+                break;
+            }
+        }} catch{}
         if(TempArray.length > 8) {
-            EstateArray.push(TempArray);
+            EstateArray.push(JSON.parse(JSON.stringify(TempArray)));
+            console.log("Fucking working");
+            console.log(EstateArray);
             TempArray = [];
         } else {
             TempArray = [];
-        }*/
-    
+        }
+    }
+    console.log("Final");
     console.log(EstateArray);
 }
