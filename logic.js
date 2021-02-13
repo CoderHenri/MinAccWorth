@@ -991,13 +991,13 @@ function AdvancedEstateCalc() {
     }
 
     if(GenesisTempArray.length > 8) {
-        //EstateArrayMaker(GenesisTempArray, EstateArray);
+        EstateArrayMaker(GenesisTempArray, EstateArray);
     }
     if(MysticTempArray.length > 8) {
-        //EstateArrayMaker(MysticTempArray, EstateArray);
+        EstateArrayMaker(MysticTempArray, EstateArray);
     }
     if(ArcticTempArray.length > 8) {
-        //EstateArrayMaker(ArcticTempArray, EstateArray);
+        EstateArrayMaker(ArcticTempArray, EstateArray);
     }
     if(ForestTempArray.length > 8) {
         EstateArrayMaker(ForestTempArray, EstateArray);
@@ -1005,8 +1005,8 @@ function AdvancedEstateCalc() {
     if(SavannahTempArray.length > 8) {
         EstateArrayMaker(SavannahTempArray, EstateArray);
     }
-    
-
+    console.log(EstateArray);
+    //jetzt von LandGridAll die Zusatzinformationen (river etc) holen und mit Estatearray in nen neuen Array kombinieren
 }
 
 function EstateArrayMaker(Array, EstateArray) {
@@ -1060,13 +1060,10 @@ function EstateArrayMaker(Array, EstateArray) {
         }} catch{}
         if(TempArray.length > 8) {
             EstateArray.push(JSON.parse(JSON.stringify(TempArray)));
-            console.log("Fucking working");
-            console.log(EstateArray);
             TempArray = [];
         } else {
             TempArray = [];
         }
     }
-    console.log("Final");
-    console.log(EstateArray);
+    return EstateArray;
 }
