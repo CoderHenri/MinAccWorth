@@ -2,6 +2,7 @@ var AnzahlAxie = [];
 var LandGridAll = [];
 var LandGridOwner = [];
 var SortedLandGridOwner = [];
+var OwnerEstateArray = [];
 
 function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -929,7 +930,6 @@ function RoninQuerySorter(Array) {
             SortedLandGridOwner.push({landType:Array[i].data.lands.results[j].landType, row:Array[i].data.lands.results[j].row, col:Array[i].data.lands.results[j].col});
         }
     }
-    console.log(SortedLandGridOwner);
 
     var AnzahlGen = 0;
     var AnzahlMystic = 0;
@@ -962,6 +962,9 @@ function RoninQuerySorter(Array) {
     document.getElementById("LandArcticAmount").innerHTML = AnzahlArctic;
     document.getElementById("LandForestAmount").innerHTML = AnzahlForest;
     document.getElementById("LandSavannahAmount").innerHTML = AnzahlSavannah;
+
+    AddMultipliers(SortedLandGridOwner);
+    console.log(SortedLandGridOwner);
 }
 
 function AdvancedEstateCalc() {
@@ -1006,6 +1009,9 @@ function AdvancedEstateCalc() {
         EstateArrayMaker(SavannahTempArray, EstateArray);
     }
     console.log(EstateArray);
+    console.log(OwnerEstateArray);
+
+    AdvancedEstateRechnung(EstateArray, OwnerEstateArray);
     //jetzt von LandGridAll die Zusatzinformationen (river etc) holen und mit Estatearray in nen neuen Array kombinieren
 }
 
@@ -1066,4 +1072,21 @@ function EstateArrayMaker(Array, EstateArray) {
         }
     }
     return EstateArray;
+}
+
+function AddMultipliers(Array) {
+
+    //Landgridall with multipliers to Array (>SortedLandGridOwner) that has the plots from the account but not the multiplier and put it into the OwnerestateArray
+    for(i=0; i<Array.length; i++) {
+        for(j=0; j<LandGridAll.length; j++) {
+            if(Array[i].row == LandGridAll[j].row && Array[i].col == LandGridAll[j].col) {
+                OwnerEstateArray.push(LandGridAll[j]);
+                break;
+            }
+        }
+    }
+}
+
+function AdvancedEstateRechnung(EArray, OArray) {
+    
 }
