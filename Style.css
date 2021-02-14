@@ -128,10 +128,24 @@
     width: 800px;
     height: auto;
     position: relative;
-    display: grid;
+    display: grid; 
     grid-template-columns: 260px 180px 180px 180px;
     grid-template-rows: 35px 30px 30px 30px 30px 30px 35px;
     row-gap: 5px;
+}
+
+#DatacontainerEstate {
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  width: 800px;
+  height: auto;
+  position: relative;
+  display: none; /* grid */
+  grid-template-columns: 260px 180px 180px 180px;
+  grid-template-rows: 35px 30px  35px 35px;
+  row-gap: 5px;
 }
 
 #DatacontainerItem {
@@ -217,4 +231,17 @@
   100% {
     transform: rotate(1800deg);
   }
+}
+
+.GenesisVisS {
+  display: block;
+}
+.MysticVisXXL {
+  display: block;
+}
+.MysticVisXL {
+  display: block;
+}
+.MysticVisL {
+  display: block;
 }
