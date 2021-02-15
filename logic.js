@@ -3,6 +3,11 @@ var LandGridAll = [];
 var LandGridOwner = [];
 var SortedLandGridOwner = [];
 var OwnerEstateArray = [];
+var DisplayEstateArray = [];
+
+var RiverMulti = 2;
+var RoadMulti = 1.25;
+var NodeMulti = 1.5;
 
 function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -1088,5 +1093,199 @@ function AddMultipliers(Array) {
 }
 
 function AdvancedEstateRechnung(EArray, OArray) {
+
+    var EstateWithMulti = [];
+    var TempArr = [];
+
+    for(i=0; i<EArray.length; i++) {
+        for(j=0; j<EArray[i].length; j++) {
+            for(k=0; k<LandGridAll.length; k++) {
+                if(EArray[i][j].row == LandGridAll[k].row && EArray[i][j].col == LandGridAll[k].col) {
+                    TempArr.push(LandGridAll[k]);
+                    break;
+                }
+            }
+        }
+        EstateWithMulti.push(JSON.parse(JSON.stringify(TempArr)));
+        TempArr = [];
+    }
+    console.log(EstateWithMulti);
+
+    var NonEstatePlots = JSON.parse(JSON.stringify(OArray));
+
+    for(a=0; a < OArray.length; a++) {
+        for(s=0; s < EArray.length; s++) {
+            for(d=0; d < EArray[s].length; d++) {
+                if(EArray[s][d].row == OArray[a].row && EArray[s][d].col == OArray[a].col) {
+                    delete NonEstatePlots[a];
+                    break;
+                }
+            }
+        }
+    }
+    NonEstatePlots = NonEstatePlots.filter(function (el) {
+        return el != null;
+    });
+    console.log(NonEstatePlots);
+
+    for(u=0; u < EstateWithMulti.length; u++) {
+        CalcWriter(EstateWithMulti[u]);
+    }
+    UIAnwender(DisplayEstateArray, NonEstatePlots);
+}
+
+function CalcWriter(Array) {
+
+    var EstatePrice = 0;
+
+    if(Array.length > 99) {     //XXL Estate
+        if(Array[0].LandType =="Mystic") {
+            EstatePrice = CocoMultiAnwender(Array, "Mystic", "XXL");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Mystic", EstateType:"XXL"});
+        } else if(Array[0].LandType =="Arctic") {
+            EstatePrice = CocoMultiAnwender(Array, "Arctic", "XXL");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Arctic", EstateType:"XXL"});
+        } else if(Array[0].LandType =="Forest") {
+            EstatePrice = CocoMultiAnwender(Array, "Forest", "XXL");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Forest", EstateType:"XXL"});
+        } else if(Array[0].LandType =="Savannah") {
+            EstatePrice = CocoMultiAnwender(Array, "Savannah", "XXL");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Savannah", EstateType:"XXL"});
+        }
+    } else if(Array.length > 49) { //XL Estate
+        if(Array[0].LandType =="Mystic") {
+            EstatePrice = CocoMultiAnwender(Array, "Mystic", "XL");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Mystic", EstateType:"XL"});
+        } else if(Array[0].LandType =="Arctic") {
+            EstatePrice = CocoMultiAnwender(Array, "Arctic", "XL");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Arctic", EstateType:"XL"});
+        } else if(Array[0].LandType =="Forest") {
+            EstatePrice = CocoMultiAnwender(Array, "Forest", "XL");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Forest", EstateType:"XL"});
+        } else if(Array[0].LandType =="Savannah") {
+            EstatePrice = CocoMultiAnwender(Array, "Savannah", "XL");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Savannah", EstateType:"XL"});
+        }
+    } else if(Array.length > 35) { //L Estate
+        if(Array[0].LandType =="Mystic") {
+            EstatePrice = CocoMultiAnwender(Array, "Mystic", "L");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Mystic", EstateType:"L"});
+        } else if(Array[0].LandType =="Arctic") {
+            EstatePrice = CocoMultiAnwender(Array, "Arctic", "L");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Arctic", EstateType:"L"});
+        } else if(Array[0].LandType =="Forest") {
+            EstatePrice = CocoMultiAnwender(Array, "Forest", "L");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Forest", EstateType:"L"});
+        } else if(Array[0].LandType =="Savannah") {
+            EstatePrice = CocoMultiAnwender(Array, "Savannah", "L");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Savannah", EstateType:"L"});
+        }
+    } else if(Array.length > 24) { //M Estate
+        if(Array[0].LandType =="Mystic") {
+            EstatePrice = CocoMultiAnwender(Array, "Mystic", "M");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Mystic", EstateType:"M"});
+        } else if(Array[0].LandType =="Arctic") {
+            EstatePrice = CocoMultiAnwender(Array, "Arctic", "M");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Arctic", EstateType:"M"});
+        } else if(Array[0].LandType =="Forest") {
+            EstatePrice = CocoMultiAnwender(Array, "Forest", "M");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Forest", EstateType:"M"});
+        } else if(Array[0].LandType =="Savannah") {
+            EstatePrice = CocoMultiAnwender(Array, "Savannah", "M");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Savannah", EstateType:"M"});
+        }
+    } else if(Array.length > 15) { //MS Estate
+        if(Array[0].LandType =="Mystic") {
+            EstatePrice = CocoMultiAnwender(Array, "Mystic", "MS");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Mystic", EstateType:"MS"});
+        } else if(Array[0].LandType =="Arctic") {
+            EstatePrice = CocoMultiAnwender(Array, "Arctic", "MS");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Arctic", EstateType:"MS"});
+        } else if(Array[0].LandType =="Forest") {
+            EstatePrice = CocoMultiAnwender(Array, "Forest", "MS");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Forest", EstateType:"MS"});
+        } else if(Array[0].LandType =="Savannah") {
+            EstatePrice = CocoMultiAnwender(Array, "Savannah", "MS");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Savannah", EstateType:"MS"});
+        }
+    } else if(Array.length > 8) { //S Estate
+        if(Array.LandType =="Genesis") {
+            EstatePrice = CocoMultiAnwender(Array, "Genesis", "S");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Genesis", EstateType:"S"});
+        } else if(Array[0].LandType =="Mystic") {
+            EstatePrice = CocoMultiAnwender(Array, "Mystic", "S");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Mystic", EstateType:"S"});
+        } else if(Array[0].LandType =="Arctic") {
+            EstatePrice = CocoMultiAnwender(Array, "Arctic", "S");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Arctic", EstateType:"S"});
+        } else if(Array[0].LandType =="Forest") {
+            EstatePrice = CocoMultiAnwender(Array, "Forest", "S");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Forest", EstateType:"S"});
+        } else if(Array[0].LandType =="Savannah") {
+            EstatePrice = CocoMultiAnwender(Array, "Savannah", "S");
+            DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Savannah", EstateType:"S"});
+        }
+    }
+    console.log(DisplayEstateArray);
+}
+
+function CocoMultiAnwender(Array, LandTyp, LandSize) {
+    var FloorName = "Land"+LandTyp+"Price";
+    var GrundPreis = document.getElementById(FloorName).innerHTML;
+    GrundPreis = GrundPreis.replace(/[^\d.-]/g, '');
+    var FaktPreis = 0;
+
+    var RiverPlots = 0;
+    var NodePlots = 0;
+    var RoadPlots = 0;
+    var Inside = 1;
+
+    var ESize = 1
+
+    if(LandSize == "XXL") {
+        ESize = 3;
+    } else if(LandSize == "XL") {
+        ESize = 2.5;
+    } else if(LandSize == "L") {
+        ESize = 1.8;
+    } else if(LandSize == "M") {
+        ESize = 1.6;
+    } else if(LandSize == "MS") {
+        ESize = 1.4;
+    } else if(LandSize == "S") {
+        ESize = 1.2;
+    }
+
+    for(i=0; i<Array.length; i++) {
+        if(Array[i].NextToNode == "Yes") {
+            NodePlots++;
+        }
+        if(Array[i].NextToRiver == "Yes") {
+            RiverPlots++;
+        }
+        if(Array[i].NextToRoad == "Yes") {
+            RoadPlots++;
+        }
+    }
+    if(Array[0].InsideRiver == "Yes") {
+        Inside = 1.5;
+    }
+
+    FaktPreis = (GrundPreis * (Array.length - RiverPlots - NodePlots - RoadPlots + RiverPlots * RiverMulti + NodePlots * NodeMulti + RoadPlots * RoadMulti)) * Inside * ESize;
+    FaktPreis = Math.round((FaktPreis + Number.EPSILON) * 10000) / 10000
+    console.log(FaktPreis);
+
+    return FaktPreis;
+}
+
+function UIAnwender(Array, NonEstateArray) {
+    console.log("UIA started");
+    console.log(Array);
+    var FinEstatArray = [];
+
+    var TempFinArr = [];
+
     
 }
+
+//alert(JSON.stringify(DisplayEstateArray));
