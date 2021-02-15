@@ -1346,20 +1346,113 @@ function TediouslyWritenUIWriter(FinEstatArray, NonEstateArray) {
         document.getElementById(HTMLPrices).innerHTML = FinEstatArray[i].Price;
     }
 
-    for(i=0; i<FinEstatArray.length; i++) {
+    var FinSinglePLotArray = [];
+    var GenTemp = 0;
+    var ArcTemp = 0;
+    var MysTemp = 0;
+    var ForTemp = 0;
+    var SavTemp = 0;
+    var GenPreisTemp = 0;
+    var ArcPreisTemp = 0;
+    var MysPreisTemp = 0;
+    var ForPreisTemp = 0;
+    var SavPreisTemp = 0;
+    var TempGrundPreis = 0;
+    var TempFloorName = null;
+    var TempFaktPreis = 0;
+    var NodeYN = 0;
+    var RiverYN = 0;
+    var RoadYN = 0;
+    var InsideYN = 0;
+
+    for(m=0; m<NonEstateArray.length; m++) {
+        TempFloorName = "Land"+NonEstateArray[m].LandType+"Price";
+        TempGrundPreis = document.getElementById(TempFloorName).innerHTML;
+        TempGrundPreis = TempGrundPreis.replace(/[^\d.-]/g, '');
+
+
+        if(NonEstateArray[m].InsideRiver == "Yes") {
+            InsideYN = 1.5;
+        } else {
+            InsideYN = 1;
+        }
+        if(NonEstateArray[m].NextToNode == "Yes") {
+            NodeYN = NodeMulti;
+        } else {
+            NodeYN = 1;
+        }
+        if(NonEstateArray[m].NextToRiver == "Yes") {
+            RiverYN = RiverMulti;
+        } else {
+            RiverYN = 1;
+        }
+        if(NonEstateArray[m].NextToRoad == "Yes") {
+            RoadYN = RoadMulti;
+        } else {
+            RoadYN = 1;
+        }
+
+        TempFaktPreis = (TempGrundPreis * (1  * NodeYN * RiverYN * RoadYN)) * InsideYN;
+        TempFaktPreis = Math.round((TempFaktPreis + Number.EPSILON) * 10000) / 10000;
+
+        if(NonEstateArray[m].LandType == "Genesis") {
+            GenPreisTemp = GenPreisTemp + TempFaktPreis;
+            GenTemp++;
+        }
+        if(NonEstateArray[m].LandType == "Mystic") {
+            MysPreisTemp = MysPreisTemp + TempFaktPreis;
+            MysTemp++;
+        }
+        if(NonEstateArray[m].LandType == "Arctic") {
+            ArcPreisTemp = ArcPreisTemp + TempFaktPreis;
+            ArcTemp++;
+        }
+        if(NonEstateArray[m].LandType == "Forest") {
+            ForPreisTemp = ForPreisTemp + TempFaktPreis;
+            ForTemp++;
+        }
+        if(NonEstateArray[m].LandType == "Savannah") {
+            SavPreisTemp = SavPreisTemp + TempFaktPreis;
+            SavTemp++;
+        }
+    }
+
+    if(GenTemp != 0) {
+        GenPreisTemp = Math.round((GenPreisTemp + Number.EPSILON) * 10000) / 10000;
+        FinSinglePLotArray.push({landType:"Genesis", AmountOfPlots:GenTemp, Price:GenPreisTemp});
+    }
+    if(MysTemp != 0) {
+        MysPreisTemp = Math.round((MysPreisTemp + Number.EPSILON) * 10000) / 10000;
+        FinSinglePLotArray.push({landType:"Mystic", AmountOfPlots:MysTemp, Price:MysPreisTemp});
+    }
+    if(ArcTemp != 0) {
+        ArcPreisTemp = Math.round((ArcPreisTemp + Number.EPSILON) * 10000) / 10000;
+        FinSinglePLotArray.push({landType:"Arctic", AmountOfPlots:ArcTemp, Price:ArcPreisTemp});
+    }
+    if(ForTemp != 0) {
+        ForPreisTemp = Math.round((ForPreisTemp + Number.EPSILON) * 10000) / 10000;
+        FinSinglePLotArray.push({landType:"Forest", AmountOfPlots:ForTemp, Price:ForPreisTemp});
+    }
+    if(SavTemp != 0) {
+        SavPreisTemp = Math.round((SavPreisTemp + Number.EPSILON) * 10000) / 10000;
+        FinSinglePLotArray.push({landType:"Savannah", AmountOfPlots:SavTemp, Price:SavPreisTemp});
+    }
+    console.log(FinSinglePLotArray);    //Genesis die Multiplikatoren wegnehmen!! Bei Estate auch!!
+
+    for(k=0; k<FinEstatArray.length; k++) {
         //Make fields visible
-        var CssStyleSingle = "." + FinEstatArray[i].landType + "Vis" + FinEstatArray[i].EstateType;
+        var CssStyleSingle = "." + FinEstatArray[k].LandType + "Vis" + FinEstatArray[k].EstateType;
         var StackOFSingle = document.querySelectorAll(CssStyleSingle);
-        for(var j = 0; j < StackOFSingle.length; j++) {
-            StackOFSingle[j].style.display="block";
+        for(var l = 0; l < StackOFSingle.length; l++) {
+            StackOFSingle[l].style.display="block";
         }
 
         //Add the numbers
-        var HTMLPlotsSingle = FinEstatArray[i].landType + FinEstatArray[i].EstateType + "Amount";
-        document.getElementById(HTMLPlotsSingle).innerHTML = FinEstatArray[i].AmountOfPlots;
+        var HTMLPlotsSingle = FinEstatArray[k].landType + FinEstatArray[k].EstateType + "Amount";
+        document.getElementById(HTMLPlotsSingle).innerHTML = FinEstatArray[k].AmountOfPlots;
 
-        var HTMLPricesSingle = FinEstatArray[i].landType + FinEstatArray[i].EstateType + "Worth";
-        document.getElementById(HTMLPricesSingle).innerHTML = FinEstatArray[i].Price;
+        var HTMLPricesSingle = FinEstatArray[k].landType + FinEstatArray[k].EstateType + "Worth";
+        document.getElementById(HTMLPricesSingle).innerHTML = FinEstatArray[k].Price;
     }
 
     /*
