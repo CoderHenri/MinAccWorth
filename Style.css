@@ -234,14 +234,92 @@
 }
 
 .GenesisVisS {
-  display: block;
+  display: none;
 }
 .MysticVisXXL {
-  display: block;
+  display: none;
 }
 .MysticVisXL {
-  display: block;
+  display: none;
 }
 .MysticVisL {
-  display: block;
+  display: none;
+}
+.MysticVisM {
+  display: none;
+}
+.MysticVisMS {
+  display: none;
+}
+.MysticVisS {
+  display: none;
+}
+.ArcticVisXXL {
+  display: none;
+}
+.ArcticVisXL {
+  display: none;
+}
+.ArcticVisL {
+  display: none;
+}
+.ArcticVisM {
+  display: none;
+}
+.ArcticVisMS {
+  display: none;
+}
+.ArcticVisS {
+  display: none;
+}
+.ForestVisXXL {
+  display: none;
+}
+.ForestVisXL {
+  display: none;
+}
+.ForestVisL {
+  display: none;
+}
+.ForestVisM {
+  display: none;
+}
+.ForestVisMS {
+  display: none;
+}
+.ForestVisS {
+  display: none;
+}
+.SavannahVisXXL {
+  display: none;
+}
+.SavannahVisXL {
+  display: none;
+}
+.SavannahVisL {
+  display: none;
+}
+.SavannahVisM {
+  display: none;
+}
+.SavannahVisMS {
+  display: none;
+}
+.SavannahVisS {
+  display: none;
+}
+.LoneGenesisVis {
+  display: none;
+}
+.LoneMysticVis {
+  display: none;
+}
+.LoneArcticVis {
+  display: none;
+}
+.LoneForestVis {
+  display: none;
+}
+.LoneSavannahVis {
+  display: none;
 }

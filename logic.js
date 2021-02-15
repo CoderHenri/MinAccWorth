@@ -1272,7 +1272,7 @@ function CocoMultiAnwender(Array, LandTyp, LandSize) {
     }
 
     FaktPreis = (GrundPreis * (Array.length - RiverPlots - NodePlots - RoadPlots + RiverPlots * RiverMulti + NodePlots * NodeMulti + RoadPlots * RoadMulti)) * Inside * ESize;
-    FaktPreis = Math.round((FaktPreis + Number.EPSILON) * 10000) / 10000
+    FaktPreis = Math.round((FaktPreis + Number.EPSILON) * 10000) / 10000;
     console.log(FaktPreis);
 
     return FaktPreis;
@@ -1283,9 +1283,247 @@ function UIAnwender(Array, NonEstateArray) {
     console.log(Array);
     var FinEstatArray = [];
 
-    var TempFinArr = [];
+    var TempFinArr = (JSON.parse(JSON.stringify(Array)));
 
-    
+    TempFinArr.sort(getSortMethod('+landType', '+EstateType', '+AmountOfPlots'));
+
+    var cnt = 0;
+    for(i=0; i<TempFinArr.length; i++) {
+        cnt = 0;
+        for(j=0; j<FinEstatArray.length; j++) {
+            if(FinEstatArray[j].landType == TempFinArr[i].landType && FinEstatArray[j].EstateType == TempFinArr[i].EstateType) {
+                FinEstatArray[j].AmountOfPlots = FinEstatArray[j].AmountOfPlots + TempFinArr[i].AmountOfPlots;
+                FinEstatArray[j].Price = FinEstatArray[j].Price + TempFinArr[i].Price;
+                FinEstatArray[j].Price = Math.round((FinEstatArray[j].Price + Number.EPSILON) * 10000) / 10000;
+                cnt = 1;
+            }
+        }
+        if(cnt == 0) {
+            FinEstatArray.push((JSON.parse(JSON.stringify(TempFinArr[i]))));
+        }
+    }
+
+    console.log(FinEstatArray);
+    console.log(NonEstateArray);
+
+    TediouslyWritenUIWriter(FinEstatArray, NonEstateArray);
 }
 
+// adaptable sortfunction from STackoverflow: https://stackoverflow.com/questions/6129952/javascript-sort-array-by-two-fields
+function getSortMethod(){
+    var _args = Array.prototype.slice.call(arguments);
+    return function(a, b){
+        for(var x in _args){
+            var ax = a[_args[x].substring(1)];
+            var bx = b[_args[x].substring(1)];
+            var cx;
+
+            ax = typeof ax == "string" ? ax.toLowerCase() : ax / 1;
+            bx = typeof bx == "string" ? bx.toLowerCase() : bx / 1;
+
+            if(_args[x].substring(0,1) == "-"){cx = ax; ax = bx; bx = cx;}
+            if(ax != bx){return ax < bx ? -1 : 1;}
+        }
+    }
+}
 //alert(JSON.stringify(DisplayEstateArray));
+
+function TediouslyWritenUIWriter(FinEstatArray, NonEstateArray) {
+
+    for(i=0; i<FinEstatArray.length; i++) {
+        //Make fields visible
+        var CssStyle = "." + FinEstatArray[i].landType + "Vis" + FinEstatArray[i].EstateType;
+        var StackOF = document.querySelectorAll(CssStyle);
+        for(var j = 0; j < StackOF.length; j++) {
+            StackOF[j].style.display="block";
+        }
+
+        //Add the numbers
+        var HTMLPlots = FinEstatArray[i].landType + FinEstatArray[i].EstateType + "Amount";
+        document.getElementById(HTMLPlots).innerHTML = FinEstatArray[i].AmountOfPlots;
+
+        var HTMLPrices = FinEstatArray[i].landType + FinEstatArray[i].EstateType + "Worth";
+        document.getElementById(HTMLPrices).innerHTML = FinEstatArray[i].Price;
+    }
+
+    for(i=0; i<FinEstatArray.length; i++) {
+        //Make fields visible
+        var CssStyleSingle = "." + FinEstatArray[i].landType + "Vis" + FinEstatArray[i].EstateType;
+        var StackOFSingle = document.querySelectorAll(CssStyleSingle);
+        for(var j = 0; j < StackOFSingle.length; j++) {
+            StackOFSingle[j].style.display="block";
+        }
+
+        //Add the numbers
+        var HTMLPlotsSingle = FinEstatArray[i].landType + FinEstatArray[i].EstateType + "Amount";
+        document.getElementById(HTMLPlotsSingle).innerHTML = FinEstatArray[i].AmountOfPlots;
+
+        var HTMLPricesSingle = FinEstatArray[i].landType + FinEstatArray[i].EstateType + "Worth";
+        document.getElementById(HTMLPricesSingle).innerHTML = FinEstatArray[i].Price;
+    }
+
+    /*
+    document.getElementById("LandGenesisAmount").innerHTML = AnzahlGen;
+
+    // Genesis -->
+        <div class="CategoryAxie GenesisVisS" id="LandTypeGenesis"> Genesis </div>
+        <div class="CategoryFloorPriceAxie GenesisVisS" id="EstateGenesisSmall"> S </div>
+        <div class="CategoryOwnedAxies GenesisVisS" id="GenesisSmallAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies GenesisVisS" id="GenesisSmallWorth"> --- ETH </div>
+    // Mystic -->
+        <div class="CategoryAxie MysticVisXXL" id="LandTypeMystic"> Mystic </div>
+        <div class="CategoryFloorPriceAxie MysticVisXXL" id="EstateMysticXXL"> XXL </div>
+        <div class="CategoryOwnedAxies MysticVisXXL" id="MysticXXLAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies MysticVisXXL" id="MysticXXLWorth"> --- ETH </div>
+
+        <div class="CategoryAxie MysticVisXL" id="LandTypeMystic"> Mystic </div>
+        <div class="CategoryFloorPriceAxie MysticVisXL" id="EstateMysticXL"> XL </div>
+        <div class="CategoryOwnedAxies MysticVisXL" id="MysticXLAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies MysticVisXL" id="MysticXLWorth"> --- ETH </div>
+
+        <div class="CategoryAxie MysticVisL" id="LandTypeMystic"> Mystic </div>
+        <div class="CategoryFloorPriceAxie MysticVisL" id="EstateMysticL"> L </div>
+        <div class="CategoryOwnedAxies MysticVisL" id="MysticLAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies MysticVisL" id="MysticLWorth"> --- ETH </div>
+
+        <div class="CategoryAxie MysticVisM" id="LandTypeMystic"> Mystic </div>
+        <div class="CategoryFloorPriceAxie MysticVisM" id="EstateMysticM"> M </div>
+        <div class="CategoryOwnedAxies MysticVisM" id="MysticMAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies MysticVisM" id="MysticMWorth"> --- ETH </div>
+
+        <div class="CategoryAxie MysticVisMS" id="LandTypeMystic"> Mystic </div>
+        <div class="CategoryFloorPriceAxie MysticVisMS" id="EstateMysticMS"> MS </div>
+        <div class="CategoryOwnedAxies MysticVisMS" id="MysticMSAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies MysticVisMS" id="MysticMSWorth"> --- ETH </div>
+
+        <div class="CategoryAxie MysticVisS" id="LandTypeMystic"> Mystic </div>
+        <div class="CategoryFloorPriceAxie MysticVisS" id="EstateMysticS"> S </div>
+        <div class="CategoryOwnedAxies MysticVisS" id="MysticSAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies MysticVisS" id="MysticSWorth"> --- ETH </div>
+    // Arctic -->
+        <div class="CategoryAxie ArcticVisXXL" id="LandTypeArctic"> Arctic </div>
+        <div class="CategoryFloorPriceAxie ArcticVisXXL" id="EstateArcticXXL"> XXL </div>
+        <div class="CategoryOwnedAxies ArcticVisXXL" id="ArcticXXLAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies ArcticVisXXL" id="ArcticXXLWorth"> --- ETH </div>
+
+        <div class="CategoryAxie ArcticVisXL" id="LandTypeArctic"> Arctic </div>
+        <div class="CategoryFloorPriceAxie ArcticVisXL" id="EstateArcticXL"> XL </div>
+        <div class="CategoryOwnedAxies ArcticVisXL" id="ArcticXLAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies ArcticVisXL" id="ArcticXLWorth"> --- ETH </div>
+
+        <div class="CategoryAxie ArcticVisL" id="LandTypeArctic"> Arctic </div>
+        <div class="CategoryFloorPriceAxie ArcticVisL" id="EstateArcticL"> L </div>
+        <div class="CategoryOwnedAxies ArcticVisL" id="ArcticLAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies ArcticVisL" id="ArcticLWorth"> --- ETH </div>
+
+        <div class="CategoryAxie ArcticVisM" id="LandTypeArctic"> Arctic </div>
+        <div class="CategoryFloorPriceAxie ArcticVisM" id="EstateArcticM"> M </div>
+        <div class="CategoryOwnedAxies ArcticVisM" id="ArcticMAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies ArcticVisM" id="ArcticMWorth"> --- ETH </div>
+
+        <div class="CategoryAxie ArcticVisMS" id="LandTypeArctic"> Arctic </div>
+        <div class="CategoryFloorPriceAxie ArcticVisMS" id="EstateArcticMS"> MS </div>
+        <div class="CategoryOwnedAxies ArcticVisMS" id="ArcticMSAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies ArcticVisMS" id="ArcticMSWorth"> --- ETH </div>
+
+        <div class="CategoryAxie ArcticVisS" id="LandTypeArctic"> Arctic </div>
+        <div class="CategoryFloorPriceAxie ArcticVisS" id="EstateArcticS"> S </div>
+        <div class="CategoryOwnedAxies ArcticVisS" id="ArcticSAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies ArcticVisS" id="ArcticSWorth"> --- ETH </div>
+    // Forest -->
+        <div class="CategoryAxie ForestVisXXL" id="LandTypeForest"> Forest </div>
+        <div class="CategoryFloorPriceAxie ForestVisXXL" id="EstateForestXXL"> XXL </div>
+        <div class="CategoryOwnedAxies ForestVisXXL" id="ForestXXLAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies ForestVisXXL" id="ForestXXLWorth"> --- ETH </div>
+
+        <div class="CategoryAxie ForestVisXL" id="LandTypeForest"> Forest </div>
+        <div class="CategoryFloorPriceAxie ForestVisXL" id="EstateForestXL"> XL </div>
+        <div class="CategoryOwnedAxies ForestVisXL" id="ForestXLAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies ForestVisXL" id="ForestXLWorth"> --- ETH </div>
+
+        <div class="CategoryAxie ForestVisL" id="LandTypeForest"> Forest </div>
+        <div class="CategoryFloorPriceAxie ForestVisL" id="EstateForestL"> L </div>
+        <div class="CategoryOwnedAxies ForestVisL" id="ForestLAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies ForestVisL" id="ForestLWorth"> --- ETH </div>
+
+        <div class="CategoryAxie ForestVisM" id="LandTypeForest"> Forest </div>
+        <div class="CategoryFloorPriceAxie ForestVisM" id="EstateForestM"> M </div>
+        <div class="CategoryOwnedAxies ForestVisM" id="ForestMAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies ForestVisM" id="ForestMWorth"> --- ETH </div>
+
+        <div class="CategoryAxie ForestVisMS" id="LandTypeForest"> Forest </div>
+        <div class="CategoryFloorPriceAxie ForestVisMS" id="EstateForestMS"> MS </div>
+        <div class="CategoryOwnedAxies ForestVisMS" id="ForestMSAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies ForestVisMS" id="ForestMSWorth"> --- ETH </div>
+
+        <div class="CategoryAxie ForestVisS" id="LandTypeForest"> Forest </div>
+        <div class="CategoryFloorPriceAxie ForestVisS" id="EstateForestS"> S </div>
+        <div class="CategoryOwnedAxies ForestVisS" id="ForestSAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies ForestVisS" id="ForestSWorth"> --- ETH </div>
+    // Savannah -->
+        <div class="CategoryAxie SavannahVisXXL" id="LandTypeSavannah"> Savannah </div>
+        <div class="CategoryFloorPriceAxie SavannahVisXXL" id="EstateSavannahXXL"> XXL </div>
+        <div class="CategoryOwnedAxies SavannahVisXXL" id="SavannahXXLAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies SavannahVisXXL" id="SavannahXXLWorth"> --- ETH </div>
+
+        <div class="CategoryAxie SavannahVisXL" id="LandTypeSavannah"> Savannah </div>
+        <div class="CategoryFloorPriceAxie SavannahVisXL" id="EstateSavannahXL"> XL </div>
+        <div class="CategoryOwnedAxies SavannahVisXL" id="SavannahXLAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies SavannahVisXL" id="SavannahXLWorth"> --- ETH </div>
+
+        <div class="CategoryAxie SavannahVisL" id="LandTypeSavannah"> Savannah </div>
+        <div class="CategoryFloorPriceAxie SavannahVisL" id="EstateSavannahL"> L </div>
+        <div class="CategoryOwnedAxies SavannahVisL" id="SavannahLAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies SavannahVisL" id="SavannahLWorth"> --- ETH </div>
+
+        <div class="CategoryAxie SavannahVisM" id="LandTypeSavannah"> Savannah </div>
+        <div class="CategoryFloorPriceAxie SavannahVisM" id="EstateSavannahM"> M </div>
+        <div class="CategoryOwnedAxies SavannahVisM" id="SavannahMAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies SavannahVisM" id="SavannahMWorth"> --- ETH </div>
+
+        <div class="CategoryAxie SavannahVisMS" id="LandTypeSavannah"> Savannah </div>
+        <div class="CategoryFloorPriceAxie SavannahVisMS" id="EstateSavannahMS"> MS </div>
+        <div class="CategoryOwnedAxies SavannahVisMS" id="SavannahMSAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies SavannahVisMS" id="SavannahMSWorth"> --- ETH </div>
+
+        <div class="CategoryAxie SavannahVisS" id="LandTypeSavannah"> Savannah </div>
+        <div class="CategoryFloorPriceAxie SavannahVisS" id="EstateSavannahS"> S </div>
+        <div class="CategoryOwnedAxies SavannahVisS" id="SavannahSAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies SavannahVisS" id="SavannahSWorth"> --- ETH </div>
+    // Non Estate Lands -->
+        <div class="GridHeader"> Land Categories </div>
+        <div class="GridHeader"> Modifier </div>
+        <div class="GridHeader"> Lands Owned </div>
+        <div class="GridHeader"> Value </div>
+
+        <div class="CategoryAxie LoneGenesisVis" id="LandGenesis"> Genesis </div>
+        <div class="CategoryFloorPriceAxie LoneGenesisVis" id="LandGenesisInfo"> Info </div>
+        <div class="CategoryOwnedAxies LoneGenesisVis" id="LandGenesisAdvancedAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies LoneGenesisVis" id="LandGenesisAdvancedWorth"> --- ETH </div>
+
+        <div class="CategoryAxie LoneMysticVis" id="LandMystic"> Mystic </div>
+        <div class="CategoryFloorPriceAxie LoneMysticVis" id="LandMysticInfo"> Info </div>
+        <div class="CategoryOwnedAxies LoneMysticVis" id="LandMysticAdvancedAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies LoneMysticVis" id="LandMysticAdvancedWorth"> --- ETH </div>
+
+        <div class="CategoryAxie LoneArcticVis" id="LandArctic"> Arctic </div>
+        <div class="CategoryFloorPriceAxie LoneArcticVis" id="LandArcticInfo"> Info </div>
+        <div class="CategoryOwnedAxies LoneArcticVis" id="LandArcticAdvancedAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies LoneArcticVis" id="LandArcticAdvancedWorth"> --- ETH </div>
+
+        <div class="CategoryAxie LoneForestVis" id="LandForest"> Forest </div>
+        <div class="CategoryFloorPriceAxie LoneForestVis" id="LandForestInfo"> Info </div>
+        <div class="CategoryOwnedAxies LoneForestVis" id="LandForestAdvancedAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies LoneForestVis" id="LandForestAdvancedWorth"> --- ETH </div>
+
+        <div class="CategoryAxie LoneSavannahVis" id="LandSavannah"> Savannah </div>
+        <div class="CategoryFloorPriceAxie LoneSavannahVis" id="LandSavannahInfo"> Info </div>
+        <div class="CategoryOwnedAxies LoneSavannahVis" id="LandSavannahAdvancedAmount"> --- Plots </div>
+        <div class="CategoryOwnedAxies LoneSavannahVis" id="LandSavannahAdvancedWorth"> --- ETH </div>
+        
+
+        <div class="CalcHeader" id="EntireLandWorth"> New Calculated Worth of all the Land = ? </div>
+        <div class="CalcHeader" id="EntireAccountWorthAdvanced"> Your entire Account is worth: </div>
+        */
+
+}
