@@ -1437,7 +1437,7 @@ function TediouslyWritenUIWriter(FinEstatArray, NonEstateArray) {
         SavPreisTemp = Math.round((SavPreisTemp + Number.EPSILON) * 10000) / 10000;
         FinSinglePLotArray.push({landType:"Savannah", AmountOfPlots:SavTemp, Price:SavPreisTemp});
     }
-    console.log(FinSinglePLotArray);    //Genesis die Multiplikatoren wegnehmen!! Bei Estate auch!!
+    console.log(FinSinglePLotArray);    //Genesis die Multiplikatoren wegnehmen!! Bei Estate auch!! bei db file einfach nextto river auf NO!!!!
 
     for(k=0; k<FinEstatArray.length; k++) {
         //Make fields visible
