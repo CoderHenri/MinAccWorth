@@ -429,7 +429,17 @@ function QuerySaver(data, Category, QueryCat) {
     document.getElementById(Category).innerHTML = Price + " ETH";
 }
 
+var Sitereloader = 0;
+
 function SelectAddress() {
+
+    //quick and dirty hack, since otherwise loading in a new account adds it to the one calculated beforehand
+    if(Sitereloader == 1) {
+        window.location.href=window.location.href;
+    }
+
+    Sitereloader = 1;
+
     FirstOnclickCheck = 0; 
   
     var txt;
