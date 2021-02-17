@@ -411,6 +411,8 @@ async function LoadFloorPrices() {
     
 }
 
+var TripplePrice = 0;
+
 function QuerySaver(data, Category, QueryCat) {
     var Price = null;
 
@@ -424,9 +426,18 @@ function QuerySaver(data, Category, QueryCat) {
         Price = data.data.items.results[0].auction.currentPrice;
     }
 
+    if(Category == "Mystic3AxiePrice") {
+        TripplePrice = Price;
+    }
+
+    if(Category == "Mystic4AxiePrice" && (Price*3.5) > TripplePrice) {
+        Price = TripplePrice*3;
+    }
+
     Price = Price * Math.pow(10, -18);
     Price = Math.round((Price + Number.EPSILON) * 10000) / 10000
     document.getElementById(Category).innerHTML = Price + " ETH";
+
 }
 
 var Sitereloader = 0;
