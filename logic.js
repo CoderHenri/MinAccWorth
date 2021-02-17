@@ -1218,7 +1218,8 @@ function CalcWriter(Array) {
             DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Savannah", EstateType:"MS"});
         }
     } else if(Array.length > 8) { //S Estate
-        if(Array.LandType =="Genesis") {
+        if(Array[0].LandType == "Genesis") {
+            console.log("Aktiviert");
             EstatePrice = CocoMultiAnwender(Array, "Genesis", "S");
             DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Genesis", EstateType:"S"});
         } else if(Array[0].LandType =="Mystic") {
