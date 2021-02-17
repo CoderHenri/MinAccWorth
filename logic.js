@@ -1474,7 +1474,7 @@ function TediouslyWritenUIWriter(FinEstatArray, NonEstateArray) {
 }
 
 function FormulaAlert() {
-    alert("Estate Price Formula: \n Price = (Floor Price of the Land Type * (Base Plots + Plots near Water * " + RiverMulti + "\n + Plots near Roads * " + RoadMulti + " + Plots near Nodes * " + NodeMulti + ")) * " + 1.5 + " (Inside River) * Size of Estate");
+    alert("Estate Price Formula: \n Price = (Floor Price of the Land Type * (Base Plots + Plots near Water * " + RiverMulti + "\n + Plots near Roads * " + RoadMulti + " + Plots near Nodes * " + NodeMulti + ")) * " + 1.5 + " (Inside River) * Size of Estate \n \n XXL = 100+Plots = *3 \n XL = 50+Plots = *2.5 \n L = 36+Plots = *1.8 \n M = 25+Plots = *1.6 \n MS = 16+Plots = *1.4 \n S = 9+Plots = *1.2");
 }
 
 function SingleAlert() {
