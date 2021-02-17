@@ -1219,7 +1219,6 @@ function CalcWriter(Array) {
         }
     } else if(Array.length > 8) { //S Estate
         if(Array[0].LandType == "Genesis") {
-            console.log("Aktiviert");
             EstatePrice = CocoMultiAnwender(Array, "Genesis", "S");
             DisplayEstateArray.push({Price:EstatePrice, AmountOfPlots:Array.length, landType:"Genesis", EstateType:"S"});
         } else if(Array[0].LandType =="Mystic") {
@@ -1279,12 +1278,10 @@ function CocoMultiAnwender(Array, LandTyp, LandSize) {
     if(Array[0].InsideRiver == "Yes" && Array[0].LandType != "Genesis") {
         Inside = 1.5;
     }
-    console.log(Array);
-    console.log(NodePlots, RiverPlots, RoadPlots, Inside);
 
     FaktPreis = (GrundPreis * (Array.length - RiverPlots - NodePlots - RoadPlots + RiverPlots * RiverMulti + NodePlots * NodeMulti + RoadPlots * RoadMulti)) * Inside * ESize;
     FaktPreis = Math.round((FaktPreis + Number.EPSILON) * 10000) / 10000;
-    console.log(FaktPreis);
+
     return FaktPreis;
 }
 
