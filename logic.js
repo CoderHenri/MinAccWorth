@@ -1287,7 +1287,7 @@ function CocoMultiAnwender(Array, LandTyp, LandSize) {
             RoadPlots++;
         }
     }
-    if(Array[0].InsideRiver == "Yes" && Array[0].LandType != "Genesis") {
+    if(Array[0].InsideRiver == "Yes" && Array[0].LandType != "Genesis" && Array[0].LandType != "Mystic") {
         Inside = 1.5;
     }
 
@@ -1388,8 +1388,7 @@ function TediouslyWritenUIWriter(FinEstatArray, NonEstateArray) {
         TempGrundPreis = document.getElementById(TempFloorName).innerHTML;
         TempGrundPreis = TempGrundPreis.replace(/[^\d.-]/g, '');
 
-
-        if(NonEstateArray[m].InsideRiver == "Yes" && NonEstateArray[m].LandType != "Genesis") {
+        if(NonEstateArray[m].InsideRiver == "Yes" && NonEstateArray[m].LandType != "Genesis" && NonEstateArray[m].LandType != "Mystic") {
             InsideYN = 1.5;
         } else {
             InsideYN = 1;
