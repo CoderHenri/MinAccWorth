@@ -1266,23 +1266,25 @@ function CocoMultiAnwender(Array, LandTyp, LandSize) {
     }
 
     for(i=0; i<Array.length; i++) {
-        if(Array[i].NextToNode == "Yes" && Array[i].landType != "Genesis") {
+        if(Array[i].NextToNode == "Yes" && Array[i].LandType != "Genesis") {
             NodePlots++;
         }
-        if(Array[i].NextToRiver == "Yes" && Array[i].landType != "Genesis") {
+        if(Array[i].NextToRiver == "Yes" && Array[i].LandType != "Genesis") {
             RiverPlots++;
         }
         if(Array[i].NextToRoad == "Yes") {
             RoadPlots++;
         }
     }
-    if(Array[0].InsideRiver == "Yes" && Array[0].landType != "Genesis") {
+    if(Array[0].InsideRiver == "Yes" && Array[0].LandType != "Genesis") {
         Inside = 1.5;
     }
+    console.log(Array);
+    console.log(NodePlots, RiverPlots, RoadPlots, Inside);
 
     FaktPreis = (GrundPreis * (Array.length - RiverPlots - NodePlots - RoadPlots + RiverPlots * RiverMulti + NodePlots * NodeMulti + RoadPlots * RoadMulti)) * Inside * ESize;
     FaktPreis = Math.round((FaktPreis + Number.EPSILON) * 10000) / 10000;
-
+    console.log(FaktPreis);
     return FaktPreis;
 }
 
