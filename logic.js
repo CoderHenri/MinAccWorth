@@ -426,6 +426,7 @@ function QuerySaver(data, Category, QueryCat) {
         Price = data.data.items.results[0].auction.currentPrice;
     }
 
+    //2 if conditions to stop ridiculous quad evals
     if(Category == "Mystic3AxiePrice") {
         TripplePrice = Price;
     }
