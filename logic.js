@@ -1288,7 +1288,11 @@ function CocoMultiAnwender(Array, LandTyp, LandSize) {
         }
     }
     if(Array[0].InsideRiver == "Yes" && Array[0].LandType != "Genesis" && Array[0].LandType != "Mystic") {
-        Inside = 1.5;
+        if(Array[0].LandType == "Arctic") {
+            Inside = 1.3;
+        } else {
+            Inside = 1.5;
+        }
     }
 
     FaktPreis = (GrundPreis * (Array.length - RiverPlots - NodePlots - RoadPlots + RiverPlots * RiverMulti + NodePlots * NodeMulti + RoadPlots * RoadMulti)) * Inside * ESize;
@@ -1388,8 +1392,10 @@ function TediouslyWritenUIWriter(FinEstatArray, NonEstateArray) {
         TempGrundPreis = document.getElementById(TempFloorName).innerHTML;
         TempGrundPreis = TempGrundPreis.replace(/[^\d.-]/g, '');
 
-        if(NonEstateArray[m].InsideRiver == "Yes" && NonEstateArray[m].LandType != "Genesis" && NonEstateArray[m].LandType != "Mystic") {
+        if(NonEstateArray[m].InsideRiver == "Yes" && NonEstateArray[m].LandType != "Genesis" && NonEstateArray[m].LandType != "Mystic" && NonEstateArray[m].LandType != "Arctic") {
             InsideYN = 1.5;
+        } else if(NonEstateArray[m].LandType == "Arctic"){
+            InsideYN = 1.3;
         } else {
             InsideYN = 1;
         }
