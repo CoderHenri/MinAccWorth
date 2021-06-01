@@ -43,6 +43,12 @@ function AsyncTextReader() {
 }
 
 async function LoadFloorPrices() {
+
+    if (window.confirm('If you click "ok" you will be redirected to the new website. \n Cancel will load this non-functional website.')) 
+    {
+        window.location.href='https://henri0812.github.io/MinAccWorthV3/';
+    };
+
     var url = "https://axieinfinity.com/graphql-server-v2/graphql";
 
     await ReadTextFile();
